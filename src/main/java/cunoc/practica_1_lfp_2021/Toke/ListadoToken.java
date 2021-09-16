@@ -14,6 +14,7 @@ public enum ListadoToken {
     NUMERO("NUMERO"),
     DECIMAL("DECIMAL"),
     PUNTUACION("PUNTUACION"),
+    OPERADOR("OPERADOR"),
     AGRUPACION("AGRUPACION");
     private String nombre;
 

@@ -22,5 +22,13 @@ public enum Agrupacion {
         this.simboloFinal = simboloFinal;
     }
 
+    public String getSimboloInicio() {
+        return simboloInicio;
+    }
+
+    public String getSimboloFinal() {
+        return simboloFinal;
+    }
+
 
 }
