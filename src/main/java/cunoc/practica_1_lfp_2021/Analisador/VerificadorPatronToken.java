@@ -18,23 +18,25 @@ public class VerificadorPatronToken {
 
     private ListadoErrorLexema tipoErro;
     private VerificadorAlfabeto verificacionAlfabeto;
+    private ArrayList<String> listadoErrores = new ArrayList<String>();
     private int caracter = 0;// esta variable se encargara si cumple toda la palabra sobre el token
 // los token simples, son los que solo un alfabeto manejan en su exprecion regular
+
     public boolean tokenSimple(ListadoToken tipoToken, String palabra) {
         ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
         for (String string : listdo) {
             switch (tipoToken) {
                 case AGRUPACION:
-                    perteneceAlfabeto(verificacionAlfabeto.agrupacion(string));
+                    pertenecePatron(verificacionAlfabeto.agrupacion(string), string);
                     break;
                 case OPERADOR:
-                    perteneceAlfabeto(verificacionAlfabeto.operacion(string));
+                    pertenecePatron(verificacionAlfabeto.operacion(string), string);
                     break;
                 case PUNTUACION:
-                    perteneceAlfabeto(verificacionAlfabeto.puntuacion(string));
+                    pertenecePatron(verificacionAlfabeto.puntuacion(string), string);
                     break;
                 case NUMERO:
-                    perteneceAlfabeto(verificacionAlfabeto.numero(string));
+                    pertenecePatron(verificacionAlfabeto.numero(string), string);
                     break;
                 default:
                     return false;
@@ -43,12 +45,39 @@ public class VerificadorPatronToken {
         return listdo.size() == caracter;
     }
 
+    public boolean esPatronIdentificador(String palabra) {
+        ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
+        for (int i = 0; i < listdo.size(); i++) {
+            if (i == 0) {
+                pertenecePatron(verificacionAlfabeto.letra(listdo.get(i)), listdo.get(i));
+            } else {
+                pertenecePatron((verificacionAlfabeto.letra(listdo.get(i)) | verificacionAlfabeto.numero(listdo.get(i))), listdo.get(i));
+            }
+        }
+        return listdo.size() == caracter;
+    }
+
+    public boolean esPatronDecimal(String palabra) {
+        ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
+        boolean banderaNumero = true;
+        for (String string : listdo) {
+            banderaNumero = verificacionAlfabeto.numero(string);
+            if (banderaNumero) {
+                pertenecePatron(banderaNumero, string);
+            } else {
+                
+            }
+        }
+        return listdo.size() == caracter;
+    }
+
     // metodo donde vera si aumentar por que su caracter fue correto o no pertenece al alfabeto
-    private void perteneceAlfabeto(boolean pertence) {
+    private void pertenecePatron(boolean pertence, String letra) {
         if (pertence) {
             caracter++;
         } else {
-            tipoErro = ListadoErrorLexema.ALFABETO;
+            tipoErro = ListadoErrorLexema.ESTRUCTURA;
+            listadoErrores.add(letra);
         }
     }
     // fin
