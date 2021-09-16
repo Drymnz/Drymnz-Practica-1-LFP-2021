@@ -17,42 +17,40 @@ import java.util.ArrayList;
 public class VerificadorPatronToken {
 
     private ListadoErrorLexema tipoErro;
-    private VerificadorAlfabeto verificarLetra;
+    private VerificadorAlfabeto verificacionAlfabeto;
     private int caracter = 0;// esta variable se encargara si cumple toda la palabra sobre el token
-
-    public boolean verificarExtrutura(ListadoToken tipoToken, String palabra) {
+// los token simples, son los que solo un alfabeto manejan en su exprecion regular
+    public boolean tokenSimple(ListadoToken tipoToken, String palabra) {
         ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
         for (String string : listdo) {
             switch (tipoToken) {
                 case AGRUPACION:
-                    if (verificarLetra.agrupacion(string)) {
-                        caracter++;
-                    }
+                    perteneceAlfabeto(verificacionAlfabeto.agrupacion(string));
                     break;
                 case OPERADOR:
-                    if (verificarLetra.operacion(string)) {
-                        caracter++;
-                    }
+                    perteneceAlfabeto(verificacionAlfabeto.operacion(string));
                     break;
                 case PUNTUACION:
-                    if (verificarLetra.puntuacion(string)) {
-                        caracter++;
-                    }
+                    perteneceAlfabeto(verificacionAlfabeto.puntuacion(string));
                     break;
                 case NUMERO:
-                    if (verificarLetra.numero(string)) {
-                        caracter++;
-                    }
+                    perteneceAlfabeto(verificacionAlfabeto.numero(string));
                     break;
+                default:
+                    return false;
             }
         }
         return listdo.size() == caracter;
     }
 
-    /*    private boolean tokenIdentificador(ArrayList<String> listdo) {
-    if (listdo.get(0)) {
-    
+    // metodo donde vera si aumentar por que su caracter fue correto o no pertenece al alfabeto
+    private void perteneceAlfabeto(boolean pertence) {
+        if (pertence) {
+            caracter++;
+        } else {
+            tipoErro = ListadoErrorLexema.ALFABETO;
+        }
     }
-    return listdo.size() == caracter;
-    }*/
+    // fin
+
 }
