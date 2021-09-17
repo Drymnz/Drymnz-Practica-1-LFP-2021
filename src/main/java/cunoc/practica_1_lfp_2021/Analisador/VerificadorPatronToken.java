@@ -5,6 +5,7 @@
  */
 package cunoc.practica_1_lfp_2021.Analisador;
 
+import cunoc.practica_1_lfp_2021.Alfabeto.Puntuacion;
 import cunoc.practica_1_lfp_2021.Errores.ListadoErrorLexema;
 import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
 import cunoc.practica_1_lfp_2021.Toke.ListadoToken;
@@ -65,7 +66,7 @@ public class VerificadorPatronToken {
             if (banderaNumero) {
                 pertenecePatron(banderaNumero, string);
             } else {
-                
+                pertenecePatron((string.equals(Puntuacion.COMMAT.getSimbolo())), palabra);
             }
         }
         return listdo.size() == caracter;

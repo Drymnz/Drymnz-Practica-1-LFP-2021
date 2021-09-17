@@ -7,13 +7,14 @@ package cunoc.practica_1_lfp_2021.view.sub_ventanas;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import static java.lang.Thread.sleep;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class PanelCarga extends JPanel {
+public class PanelCarga extends JPanel{
 
     private String nombreCarga;
     private double progreso;
@@ -40,19 +41,34 @@ public class PanelCarga extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
-        g.drawString(nombreCarga + ": "+this.progreso +"%", this.getWidth() - (nombreCarga.length() / 2), 0);
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         g.setColor(this.colorProgreso);
-        g.fillRect(0, 0, (int) progreso, this.getHeight());
+        g.fillRect(0, 0,(int) progreso, this.getHeight());
+        g.setColor(this.colorLetra);
+        g.drawString(nombreCarga + ": " +calculoPorcentaje(this.getWidth(),this.progreso)  + "%", (this.getWidth() / 3) - (nombreCarga.length()), this.getHeight() / 2);
     }
 
-    public void cantidaReferente(double referente, double valor) {
+    public void setProgresoReferente(double referente, double valor) {
         double division = valor / referente;
         if (division < 1) {
-            this.progreso = division * 100;
+            this.progreso = division * this.getWidth();
         } else {
-            this.progreso = 100;
+            this.progreso = this.getWidth();
         }
     }
+
+    private int calculoPorcentaje(double referente, double valor) {
+        double dividir = (valor / 100);
+        if (dividir >= 1 & dividir > 0) {
+            return (int) referente;
+        } else {
+            return (int) (dividir * referente);
+        }
+    }
+
+    public void setProgreso(double progreso) {
+        this.progreso = progreso;
+    }
+    
 }

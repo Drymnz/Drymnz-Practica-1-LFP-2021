@@ -38,6 +38,7 @@ public class EditorTexto extends javax.swing.JPanel {
         jButtonBuscar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButtonAnalisar = new javax.swing.JButton();
 
         jTextFieldBuscador.setText("Buscar");
         jTextFieldBuscador.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +79,13 @@ public class EditorTexto extends javax.swing.JPanel {
             }
         });
 
+        jButtonAnalisar.setText("Analisar");
+        jButtonAnalisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAnalisarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,7 +98,9 @@ public class EditorTexto extends javax.swing.JPanel {
                         .addComponent(JButtonRegresar)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 623, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 528, Short.MAX_VALUE)
+                        .addComponent(jButtonAnalisar)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonBuscar)
@@ -106,7 +116,8 @@ public class EditorTexto extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextFieldBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButtonBuscar)
-                        .addComponent(jButton1))
+                        .addComponent(jButton1)
+                        .addComponent(jButtonAnalisar))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(JButtonRegresar)
                         .addComponent(jButton2)))
@@ -136,6 +147,10 @@ public class EditorTexto extends javax.swing.JPanel {
         archivo = null;
         aguardar();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButtonAnalisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnalisarActionPerformed
+       Start.ejecutar.irAnalisador(jTextArea.getText(), archivo);
+    }//GEN-LAST:event_jButtonAnalisarActionPerformed
     private void aguardar() {
         String mensaje = "Fallo al aguardar";
         if (archivo == null) {
@@ -153,6 +168,7 @@ public class EditorTexto extends javax.swing.JPanel {
     private javax.swing.JButton JButtonRegresar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonAnalisar;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea;

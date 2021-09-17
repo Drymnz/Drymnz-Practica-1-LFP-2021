@@ -55,7 +55,9 @@ public class Ventana extends JFrame {
         restarurarVentana(1280, 620);
     }
 
-    public void irAnalisador() {
+    public void irAnalisador(String texto, File archivo) {
+        analisador.setArchivo(archivo);
+        analisador.setTexto(texto);
         carpeta.show(JPanel_Venantan, "Analisador");
         restarurarVentana(480, 360);
     }
