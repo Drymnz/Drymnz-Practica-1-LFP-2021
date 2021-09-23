@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class EditorTexto extends javax.swing.JPanel {
 
@@ -149,7 +149,10 @@ public class EditorTexto extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButtonAnalisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnalisarActionPerformed
-       Start.ejecutar.irAnalisador(jTextArea.getText(), archivo);
+        do {            
+           aguardar();
+        } while (archivo == null);
+        Start.ejecutar.irAnalisador(jTextArea.getText(), archivo);
     }//GEN-LAST:event_jButtonAnalisarActionPerformed
     private void aguardar() {
         String mensaje = "Fallo al aguardar";

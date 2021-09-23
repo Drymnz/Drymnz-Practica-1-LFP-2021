@@ -12,17 +12,16 @@ import cunoc.practica_1_lfp_2021.Toke.ListadoToken;
 import java.util.ArrayList;
 
 /**
- *
- * @author Benjamín de Jesús Pérez <@Drymnz>
+ * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class VerificadorPatronToken {
 
     private ListadoErrorLexema tipoErro;
     private VerificadorAlfabeto verificacionAlfabeto;
-    private ArrayList<String> listadoErrores = new ArrayList<String>();
+    private String listadoErrores = "";
     private int caracter = 0;// esta variable se encargara si cumple toda la palabra sobre el token
-// los token simples, son los que solo un alfabeto manejan en su exprecion regular
 
+// los token simples, son los que solo un alfabeto manejan en su exprecion regular
     public boolean tokenSimple(ListadoToken tipoToken, String palabra) {
         ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
         for (String string : listdo) {
@@ -45,6 +44,7 @@ public class VerificadorPatronToken {
         }
         return listdo.size() == caracter;
     }
+// verificar si es un patron de identificador
 
     public boolean esPatronIdentificador(String palabra) {
         ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
@@ -57,6 +57,7 @@ public class VerificadorPatronToken {
         }
         return listdo.size() == caracter;
     }
+// verificar si es un patron de decimal
 
     public boolean esPatronDecimal(String palabra) {
         ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
@@ -72,15 +73,22 @@ public class VerificadorPatronToken {
         return listdo.size() == caracter;
     }
 
-    // metodo donde vera si aumentar por que su caracter fue correto o no pertenece al alfabeto
+    // metodo donde vera si aumentar por que su caracter fue correto  o no pertenece al alfabeto
     private void pertenecePatron(boolean pertence, String letra) {
         if (pertence) {
             caracter++;
         } else {
             tipoErro = ListadoErrorLexema.ESTRUCTURA;
-            listadoErrores.add(letra);
+            listadoErrores += (letra + ",");
         }
     }
-    // fin
+
+    public ListadoErrorLexema getTipoErro() {
+        return tipoErro;
+    }
+
+    public String getListadoErrores() {
+        return listadoErrores;
+    }
 
 }

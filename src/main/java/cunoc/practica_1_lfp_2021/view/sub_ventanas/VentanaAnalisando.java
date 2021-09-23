@@ -10,18 +10,21 @@ import cunoc.practica_1_lfp_2021.Start;
 import java.io.File;
 
 /**
- * @author Sammy Guergachi <sguergachi at gmail.com>
+@author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class VentanaAnalisando extends javax.swing.JPanel {
+
     private String texto;
     private File archivo;
     private Thread iniciar;
+
     /**
      * Creates new form VentanaAnalisando
      */
     public VentanaAnalisando() {
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -83,12 +86,15 @@ public class VentanaAnalisando extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       iniciar = new Thread(new Categorizador(panelCarga1, texto),"Analisador");
-       iniciar.start();
+        iniciar = new Thread(new Categorizador(panelCarga1, texto), "Analisador");
+        iniciar.start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       Start.ejecutar.irEditor(texto, archivo);
+        Start.ejecutar.irEditor(texto, archivo);
+        if (iniciar.isAlive()) {
+            iniciar.stop();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public void setTexto(String texto) {

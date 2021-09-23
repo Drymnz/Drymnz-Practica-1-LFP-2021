@@ -7,7 +7,7 @@ package cunoc.practica_1_lfp_2021.Toke;
 
 /**
  *
- * @author Benjamín de Jesús Pérez <@Drymnz>
+ * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class Palabra {
 

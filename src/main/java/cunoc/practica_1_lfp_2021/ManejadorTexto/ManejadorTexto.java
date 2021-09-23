@@ -22,27 +22,27 @@ public class ManejadorTexto {
     public ManejadorTexto() {
         this(0);
     }
-
+    /*
     public ArrayList<String> dividirTextoPalabra(String texto) {
-        ArrayList<String> listado = new ArrayList();
-        String palabra = "";
-        char temporal;
-        while ((posicionInicial < texto.length())) {
-            if (Character.isSpaceChar(temporal = texto.charAt(posicionInicial))) {
-                listado.add(palabra);
-                palabra = "";
-            } else {
-                palabra += temporal;
-            }
-            posicionInicial++;
-        }
-        return listado;
+    ArrayList<String> listado = new ArrayList();
+    String palabra = "";
+    char temporal;
+    while ((posicionInicial < texto.length())) {
+    if (Character.isSpaceChar(temporal = texto.charAt(posicionInicial))) {
+    listado.add(palabra);
+    palabra = "";
+    } else {
+    palabra += temporal;
     }
+    posicionInicial++;
+    }
+    return listado;
+    }*/
 
     public ArrayList<String> dividirTextoLetras(String texto) {
         ArrayList<String> listado = new ArrayList();
         for (char caracter : texto.toCharArray()) {
-            listado.add(caracter + "");
+            listado.add(String.valueOf(caracter));
         }
         return listado;
     }
