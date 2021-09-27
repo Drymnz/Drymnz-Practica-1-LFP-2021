@@ -10,8 +10,8 @@ package cunoc.practica_1_lfp_2021.Errores;
  * @author Benjamín de Jesús Pérez <@Drymnz>
  */
 public enum ListadoErrorLexema {
-    ESTRUCTURA("ESTRUCTURA"),
-    ALFABETO("ALFABETO");
+    ESTRUCTURA("ERROR-ESTRUCTURA"),
+    ALFABETO("ERROR-ALFABETO");
     private String nombre;
 
     private ListadoErrorLexema(String nombre) {

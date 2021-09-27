@@ -13,11 +13,10 @@ package cunoc.practica_1_lfp_2021.Toke;
 public class Lexema extends Palabra{
     private ListadoToken tipoToken;
 
-    public Lexema(ListadoToken tipoToken, String Palabra, int posicionX, int posicionY) {
+    public Lexema(ListadoToken tipoToken, Caracter[] Palabra, int posicionX, int posicionY) {
         super(Palabra, posicionX, posicionY);
         this.tipoToken = tipoToken;
     }
-
     public ListadoToken getTipoToken() {
         return tipoToken;
     }

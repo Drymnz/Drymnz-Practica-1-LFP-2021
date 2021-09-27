@@ -36,8 +36,8 @@ public class EditorTexto extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea = new javax.swing.JTextArea();
         jButtonBuscar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonAguardar = new javax.swing.JButton();
+        jButtonAguardarComo = new javax.swing.JButton();
         jButtonAnalisar = new javax.swing.JButton();
 
         jTextFieldBuscador.setText("Buscar");
@@ -65,17 +65,17 @@ public class EditorTexto extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("Aguardar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAguardar.setText("Aguardar");
+        jButtonAguardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonAguardarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Aguardar como");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAguardarComo.setText("Aguardar como");
+        jButtonAguardarComo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonAguardarComoActionPerformed(evt);
             }
         });
 
@@ -97,11 +97,11 @@ public class EditorTexto extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(JButtonRegresar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(jButtonAguardarComo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 528, Short.MAX_VALUE)
                         .addComponent(jButtonAnalisar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(jButtonAguardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonBuscar)
                         .addGap(18, 18, 18)
@@ -116,11 +116,11 @@ public class EditorTexto extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextFieldBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButtonBuscar)
-                        .addComponent(jButton1)
+                        .addComponent(jButtonAguardar)
                         .addComponent(jButtonAnalisar))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(JButtonRegresar)
-                        .addComponent(jButton2)))
+                        .addComponent(jButtonAguardarComo)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
                 .addContainerGap())
@@ -139,25 +139,25 @@ public class EditorTexto extends javax.swing.JPanel {
         (new Resaltador(jTextArea, jTextFieldBuscador.getText())).run();
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonAguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAguardarActionPerformed
         aguardar();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonAguardarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonAguardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAguardarComoActionPerformed
         archivo = null;
         aguardar();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonAguardarComoActionPerformed
 
     private void jButtonAnalisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnalisarActionPerformed
-        do {            
-           aguardar();
+        do {
+            aguardar();
         } while (archivo == null);
         Start.ejecutar.irAnalisador(jTextArea.getText(), archivo);
     }//GEN-LAST:event_jButtonAnalisarActionPerformed
     private void aguardar() {
         String mensaje = "Fallo al aguardar";
         if (archivo == null) {
-            FileNameExtensionFilter filtrado  = new FileNameExtensionFilter(".txt", "txt");
+            FileNameExtensionFilter filtrado = new FileNameExtensionFilter(".txt", "txt");
             JFileChooser buscador = new JFileChooser();
             buscador.setFileFilter(filtrado);
             mensaje = ((buscador.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) && (new ManejadorEscrituraArchivo()).aguardarTexto((buscador).getSelectedFile(), jTextArea.getText())) ? "se aguardo correctamente" : "Fallo al aguardar";
@@ -169,8 +169,8 @@ public class EditorTexto extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JButtonRegresar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonAguardar;
+    private javax.swing.JButton jButtonAguardarComo;
     private javax.swing.JButton jButtonAnalisar;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JScrollPane jScrollPane2;
@@ -186,5 +186,4 @@ public class EditorTexto extends javax.swing.JPanel {
         this.archivo = archivo;
     }
 // fin set y get 
-
 }

@@ -6,6 +6,7 @@
 package cunoc.practica_1_lfp_2021.Analisador;
 
 import cunoc.practica_1_lfp_2021.Errores.ErrorLexema;
+import cunoc.practica_1_lfp_2021.Errores.RecuperacionError;
 import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
 import cunoc.practica_1_lfp_2021.Toke.Lexema;
 import cunoc.practica_1_lfp_2021.Toke.ListadoToken;
@@ -45,23 +46,28 @@ public class Categorizador extends Thread {
         }
     }
 // analisara si la palabra cumple un patron
+
     private void analisar(String palabra) {
         VerificadorPatronToken analisar = null;
-        ListadoToken menorFallo = null;
+        VerificadorPatronToken analisarError = null;
+        if (((tipoToken(palabra, analisar, analisarError)) == null) && analisarError != null) {
+            errorLexema = true;
+            listadoPalbras.add((new ErrorLexema(analisarError.getListadoErrores(), (new RecuperacionError(analisarError, this)).recuperarError(), analisar.getTipoErro(), analisarError.getListadoCaracter(), (contadorColumna - palabra.length()), contadorFila)));
+        }
+    }
+
+    public ListadoToken tipoToken(String palabra, VerificadorPatronToken analisar, VerificadorPatronToken analisarError) {
         ListadoToken[] listadoTipoToken = ListadoToken.values();
-        String caracterFallo  = "";
+        String caracterFallo = "";
         for (int i = 0; i < listadoTipoToken.length; i++) {
-            if (((analisar = new VerificadorPatronToken()).tokenSimple(listadoTipoToken[i], palabra)) || ((listadoTipoToken[i] == ListadoToken.IDENTIFICADOR && analisar.esPatronIdentificador(palabra) || (listadoTipoToken[i] == ListadoToken.DECIMAL && analisar.esPatronDecimal(palabra))))) {
-                listadoPalbras.add(new Lexema(listadoTipoToken[i], palabra, contadorFila, (contadorColumna - palabra.length())));
-                i = listadoTipoToken.length;
-            }else if (caracterFallo.isEmpty() || (caracterFallo.length() > analisar.getListadoErrores().length())){
-                menorFallo = listadoTipoToken[i];
+            if (((analisar = new VerificadorPatronToken(palabra)).tokenSimple(listadoTipoToken[i])) || ((listadoTipoToken[i] == ListadoToken.IDENTIFICADOR && analisar.esPatronIdentificador() || (listadoTipoToken[i] == ListadoToken.DECIMAL && analisar.esPatronDecimal())))) {
+                listadoPalbras.add(new Lexema(listadoTipoToken[i], analisar.getListadoCaracter(), contadorFila, (contadorColumna - palabra.length())));
+                return listadoTipoToken[i];
+            } else if ((caracterFallo.isEmpty() || (caracterFallo.length() > analisar.getListadoErrores().length()))) {
+                analisarError = analisar;
             }
         }
-        if (menorFallo != null) {
-            errorLexema = true;
-            listadoPalbras.add((new ErrorLexema(caracterFallo, analisar.getTipoErro(), palabra, contadorFila, (contadorColumna - palabra.length()))));
-        }
+        return null;
     }
 
     private void irReportes() {

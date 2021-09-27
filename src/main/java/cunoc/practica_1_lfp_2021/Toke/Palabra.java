@@ -11,21 +11,21 @@ package cunoc.practica_1_lfp_2021.Toke;
  */
 public class Palabra {
 
-    private String Palabra;
+    private Caracter[] Palabra;
     private int posicionX;
     private int posicionY;
 
-    public Palabra(String Palabra, int posicionX, int posicionY) {
+    public Palabra(Caracter[] Palabra, int posicionX, int posicionY) {
         this.Palabra = Palabra;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
     }
 
-    public String getPalabra() {
+    public Caracter[] getPalabra() {
         return Palabra;
     }
 
-    public void setPalabra(String Palabra) {
+    public void setPalabra(Caracter[] Palabra) {
         this.Palabra = Palabra;
     }
 
