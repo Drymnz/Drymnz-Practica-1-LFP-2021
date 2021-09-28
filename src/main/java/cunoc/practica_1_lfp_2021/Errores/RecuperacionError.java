@@ -11,7 +11,6 @@ import cunoc.practica_1_lfp_2021.Analisador.Categorizador;
 import cunoc.practica_1_lfp_2021.Analisador.VerificadorPatronToken;
 import cunoc.practica_1_lfp_2021.Toke.Caracter;
 import cunoc.practica_1_lfp_2021.Toke.ListadoToken;
-import cunoc.practica_1_lfp_2021.view.Reportes.SubReporteToken.ListadoResumenToken;
 
 /**
  * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
@@ -31,21 +30,29 @@ public class RecuperacionError {
 
     public String recuperarError() {
         String returnarString = "";
+        String ultimoCaracter = "";
         returnarString += indicar();
         boolean primeraVez = true;
         Caracter[] listadoCaracter = verificadorPatron.getListadoCaracter();
         String palabra = listadoCaracter[0].getCaracter();
         for (int i = 0; i < (listadoCaracter.length - 1); i++) {
-            if (listadoCaracter[i].getAlfabeto().equals(listadoCaracter[i + 1].getAlfabeto())) {
+            if (listadoCaracter[i].getAlfabeto().equals(ultimoCaracter = listadoCaracter[i + 1].getAlfabeto())) {
                 palabra += listadoCaracter[i + 1].getCaracter();
             } else if ((tokenComplejo(palabra, listadoCaracter[i], listadoCaracter[i + 1]))) {
                 palabra += listadoCaracter[i + 1].getCaracter();
             } else {
                 returnarString = tokenPosibles(primeraVez, palabra, 
-                        verTipoToken.tipoToken(palabra, verificadorPatron, verificadorPatron)
+                        verTipoToken.tipoToken(palabra)
                         , palabra + listadoCaracter[i+1].getCaracter());
                 palabra = "";
+                primeraVez = false;
             }
+        }
+        if (!palabra.isEmpty()) {
+            returnarString = tokenPosibles(primeraVez, palabra, 
+                        verTipoToken.tipoToken(palabra)
+                        , palabra + ultimoCaracter);
+                palabra = "";
         }
         return returnarString;
     }

@@ -8,6 +8,7 @@ package cunoc.practica_1_lfp_2021.Analisador;
 import cunoc.practica_1_lfp_2021.Errores.ErrorLexema;
 import cunoc.practica_1_lfp_2021.Errores.RecuperacionError;
 import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
+import cunoc.practica_1_lfp_2021.Start;
 import cunoc.practica_1_lfp_2021.Toke.Lexema;
 import cunoc.practica_1_lfp_2021.Toke.ListadoToken;
 import cunoc.practica_1_lfp_2021.Toke.Palabra;
@@ -21,6 +22,9 @@ public class Categorizador extends Thread {
 
     private PanelCarga mostrarProgreso;
     private String texto;
+    private VerificadorPatronToken analisar = null;
+    private ListadoToken dar = null;
+    private VerificadorPatronToken analisarError = null;
     private boolean errorLexema;
     private int contadorFila = 1;
     private int contadorColumna = 0;
@@ -44,19 +48,25 @@ public class Categorizador extends Thread {
             }
             mostrarProgreso.setProgresoReferente(totalLetra, contadorFila * contadorColumna);
         }
+        if (!palabra.isEmpty()) {
+            analisar(palabra);
+        }
     }
 // analisara si la palabra cumple un patron
 
     private void analisar(String palabra) {
-        VerificadorPatronToken analisar = null;
-        VerificadorPatronToken analisarError = null;
-        if (((tipoToken(palabra, analisar, analisarError)) == null) && analisarError != null) {
+        analisar = null;
+        dar = null;
+        analisarError = null;
+        if (((dar = tipoToken(palabra)) == null) && analisarError != null) {
             errorLexema = true;
             listadoPalbras.add((new ErrorLexema(analisarError.getListadoErrores(), (new RecuperacionError(analisarError, this)).recuperarError(), analisar.getTipoErro(), analisarError.getListadoCaracter(), (contadorColumna - palabra.length()), contadorFila)));
+        } else if (analisar != null) {
+            listadoPalbras.add(new Lexema(dar, analisar.getListadoCaracter(), (contadorColumna - palabra.length()), contadorFila));
         }
     }
 
-    public ListadoToken tipoToken(String palabra, VerificadorPatronToken analisar, VerificadorPatronToken analisarError) {
+    public ListadoToken tipoToken(String palabra) {
         ListadoToken[] listadoTipoToken = ListadoToken.values();
         String caracterFallo = "";
         for (int i = 0; i < listadoTipoToken.length; i++) {
@@ -72,7 +82,7 @@ public class Categorizador extends Thread {
 
     private void irReportes() {
         if (errorLexema) {
-
+            Start.ejecutar.irReportesError(listadoPalbras);
         } else {
 
         }
@@ -94,6 +104,7 @@ public class Categorizador extends Thread {
             sleep(10);
             irReportes();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }

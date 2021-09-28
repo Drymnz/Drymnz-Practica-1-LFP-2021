@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class VerificadorPatronToken {
 
     private ListadoErrorLexema tipoErro;
-    protected VerificadorAlfabeto verificacionAlfabeto;
+    protected VerificadorAlfabeto verificacionAlfabeto = new VerificadorAlfabeto();
     protected String palabra;
     private Caracter[] listadoCaracter;
     private String listadoErrores = "";
@@ -100,7 +100,7 @@ public class VerificadorPatronToken {
             caracter++;
         } else {
             listadoCaracter[posicion] = new Caracter(letra, ListadoErrorLexema.ALFABETO.toString());
-            tipoErro = ListadoErrorLexema.ESTRUCTURA;
+            tipoErro = ListadoErrorLexema.ALFABETO;
             listadoErrores += (letra + ",");
         }
         posicion++;

@@ -149,9 +149,6 @@ public class EditorTexto extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonAguardarComoActionPerformed
 
     private void jButtonAnalisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnalisarActionPerformed
-        do {
-            aguardar();
-        } while (archivo == null);
         Start.ejecutar.irAnalisador(jTextArea.getText(), archivo);
     }//GEN-LAST:event_jButtonAnalisarActionPerformed
     private void aguardar() {

@@ -5,11 +5,17 @@
  */
 package cunoc.practica_1_lfp_2021.view;
 
+import cunoc.practica_1_lfp_2021.Errores.ErrorLexema;
+import cunoc.practica_1_lfp_2021.Errores.ListadoErrorLexema;
+import cunoc.practica_1_lfp_2021.Toke.Caracter;
+import cunoc.practica_1_lfp_2021.Toke.Palabra;
+import cunoc.practica_1_lfp_2021.view.Reportes.ReportesErrores;
 import cunoc.practica_1_lfp_2021.view.editorTexto.EditorTexto;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.MenuPrincipal;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.VentanaAnalisando;
 import java.awt.CardLayout;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -25,6 +31,7 @@ public class Ventana extends JFrame {
     private JPanel JPanel_Venantan = new JPanel();
     private EditorTexto editor = new EditorTexto();
     private VentanaAnalisando analisador = new VentanaAnalisando();
+    private ReportesErrores erroresLexema = new ReportesErrores();
     //fin sub ventanas
     public Ventana() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -38,6 +45,7 @@ public class Ventana extends JFrame {
         JPanel_Venantan.add(menuPrincipal, "MenuPrincipal");
         JPanel_Venantan.add(editor, "Editor");
         JPanel_Venantan.add(analisador, "Analisador");
+        JPanel_Venantan.add(erroresLexema, "ErrorLexema");
     }
 
     // fin agregar ventanas
@@ -59,6 +67,13 @@ public class Ventana extends JFrame {
         analisador.setTexto(texto);
         carpeta.show(JPanel_Venantan, "Analisador");
         restarurarVentana(480, 360);
+    }
+    public void irReportesError(ArrayList<Palabra> listadoLexemao) {
+        Caracter[] e = {(new Caracter("", ""))};
+        ErrorLexema tipo = new ErrorLexema("", "", ListadoErrorLexema.ALFABETO, e, SOMEBITS, SOMEBITS);
+        erroresLexema.cargarTabla(listadoLexemao, new String[]{""}, tipo);
+        carpeta.show(JPanel_Venantan, "ErrorLexema");
+        restarurarVentana(1280, 640);
     }
 
     private void restarurarVentana(int ancho, int altura) {
