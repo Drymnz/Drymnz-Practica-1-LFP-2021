@@ -5,12 +5,9 @@
  */
 package cunoc.practica_1_lfp_2021.Analisador;
 
-import cunoc.practica_1_lfp_2021.Errores.ErrorLexema;
 import cunoc.practica_1_lfp_2021.Errores.RecuperacionError;
 import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
 import cunoc.practica_1_lfp_2021.Start;
-import cunoc.practica_1_lfp_2021.Toke.Lexema;
-import cunoc.practica_1_lfp_2021.Toke.ListadoToken;
 import cunoc.practica_1_lfp_2021.Toke.Palabra;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.PanelCarga;
 import java.util.ArrayList;
@@ -22,89 +19,76 @@ public class Categorizador extends Thread {
 
     private PanelCarga mostrarProgreso;
     private String texto;
-    private VerificadorPatronToken analisar = null;
-    private ListadoToken dar = null;
-    private VerificadorPatronToken analisarError = null;
     private boolean errorLexema;
-    private int contadorFila = 1;
-    private int contadorColumna = 0;
+    private int posicionY = 1;
+    private int posicionX = 0;
     private ArrayList<Palabra> listadoPalbras = new ArrayList<>();
 
     public Categorizador(PanelCarga mostrarProgreso, String texto) {
         this.mostrarProgreso = mostrarProgreso;
         this.texto = texto;
+        errorLexema = false;
     }
 
-    private void categorizarToken() {
+    private void categorizar() {
         int totalLetra = this.texto.length();
+        int contador = 0;
         ArrayList<String> analisar = (new ManejadorTexto()).dividirTextoLetras(texto);
         String palabra = "";
-        for (String string : analisar) {
-            contarFilaColumna(string);
-            if (string.equals("\n") || string.equals(" ")) {
+        for (String caracterAnalisar : analisar) {
+            if (!palabra.isEmpty() && (caracterAnalisar.equals("\n") || caracterAnalisar.equals(" "))) {
                 analisar(palabra);
+                palabra = "";
             } else {
-                palabra += string;
+                palabra += caracterAnalisar;
             }
-            mostrarProgreso.setProgresoReferente(totalLetra, contadorFila * contadorColumna);
+            contador++;
+            mostrarProgreso.setProgresoReferente(totalLetra, contador);
+            contarFilaColumna(caracterAnalisar);
         }
         if (!palabra.isEmpty()) {
             analisar(palabra);
         }
     }
-// analisara si la palabra cumple un patron
 
+    // analisara si la palabra cumple un patron
     private void analisar(String palabra) {
-        analisar = null;
-        dar = null;
-        analisarError = null;
-        if (((dar = tipoToken(palabra)) == null) && analisarError != null) {
+        VerificadorPatronToken cumpleUnPatron = new VerificadorPatronToken(palabra, (posicionX - palabra.length()) + 1, posicionY);
+        Palabra verificar = cumpleUnPatron.analisarPatron();
+        if (verificar == null) {
             errorLexema = true;
-            listadoPalbras.add((new ErrorLexema(analisarError.getListadoErrores(), (new RecuperacionError(analisarError, this)).recuperarError(), analisar.getTipoErro(), analisarError.getListadoCaracter(), (contadorColumna - palabra.length()), contadorFila)));
-        } else if (analisar != null) {
-            listadoPalbras.add(new Lexema(dar, analisar.getListadoCaracter(), (contadorColumna - palabra.length()), contadorFila));
+            listadoPalbras.add((new RecuperacionError(cumpleUnPatron, posicionY, (posicionX - palabra.length()) + 1)).recuperarError());
+        } else {
+            listadoPalbras.add(verificar);
         }
     }
 
-    public ListadoToken tipoToken(String palabra) {
-        ListadoToken[] listadoTipoToken = ListadoToken.values();
-        String caracterFallo = "";
-        for (int i = 0; i < listadoTipoToken.length; i++) {
-            if (((analisar = new VerificadorPatronToken(palabra)).tokenSimple(listadoTipoToken[i])) || ((listadoTipoToken[i] == ListadoToken.IDENTIFICADOR && analisar.esPatronIdentificador() || (listadoTipoToken[i] == ListadoToken.DECIMAL && analisar.esPatronDecimal())))) {
-                listadoPalbras.add(new Lexema(listadoTipoToken[i], analisar.getListadoCaracter(), contadorFila, (contadorColumna - palabra.length())));
-                return listadoTipoToken[i];
-            } else if ((caracterFallo.isEmpty() || (caracterFallo.length() > analisar.getListadoErrores().length()))) {
-                analisarError = analisar;
-            }
+// indicador de posicion para la palabra en el reporte.
+    private void contarFilaColumna(String string) {
+        posicionX++;
+        if (string.equals("\n")) {
+            posicionY++;
+            posicionX = 0;
         }
-        return null;
     }
 
     private void irReportes() {
         if (errorLexema) {
             Start.ejecutar.irReportesError(listadoPalbras);
         } else {
-
+            Start.ejecutar.irReportesToken(listadoPalbras);
         }
-    }
-// indicador de posicion para la palabra en el reporte.
-
-    private void contarFilaColumna(String string) {
-        if (string.equals("\n")) {
-            contadorFila++;
-            contadorColumna = 0;
-        }
-        contadorColumna++;
     }
 
     @Override
     public void run() {
         try {
-            categorizarToken();
+            categorizar();
             sleep(10);
-            irReportes();
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             System.out.println(e.getMessage());
+            System.out.println("Local --->" + e.toString());
         }
+        irReportes();
     }
 }

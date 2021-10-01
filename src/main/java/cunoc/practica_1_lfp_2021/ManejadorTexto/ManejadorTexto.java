@@ -5,6 +5,7 @@
  */
 package cunoc.practica_1_lfp_2021.ManejadorTexto;
 
+import cunoc.practica_1_lfp_2021.Toke.Caracter;
 import java.util.ArrayList;
 
 /**
@@ -22,22 +23,6 @@ public class ManejadorTexto {
     public ManejadorTexto() {
         this(0);
     }
-    /*
-    public ArrayList<String> dividirTextoPalabra(String texto) {
-    ArrayList<String> listado = new ArrayList();
-    String palabra = "";
-    char temporal;
-    while ((posicionInicial < texto.length())) {
-    if (Character.isSpaceChar(temporal = texto.charAt(posicionInicial))) {
-    listado.add(palabra);
-    palabra = "";
-    } else {
-    palabra += temporal;
-    }
-    posicionInicial++;
-    }
-    return listado;
-    }*/
 
     public ArrayList<String> dividirTextoLetras(String texto) {
         ArrayList<String> listado = new ArrayList();
@@ -45,6 +30,14 @@ public class ManejadorTexto {
             listado.add(String.valueOf(caracter));
         }
         return listado;
+    }
+
+    public String convertirListadoCaracter(Caracter[] listado) {
+        String recolectando = "";
+        for (Caracter caracter : listado) {
+            recolectando += caracter.getCaracter();
+        }
+        return recolectando;
     }
 
 }

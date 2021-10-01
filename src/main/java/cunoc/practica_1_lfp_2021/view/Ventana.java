@@ -5,11 +5,8 @@
  */
 package cunoc.practica_1_lfp_2021.view;
 
-import cunoc.practica_1_lfp_2021.Errores.ErrorLexema;
-import cunoc.practica_1_lfp_2021.Errores.ListadoErrorLexema;
-import cunoc.practica_1_lfp_2021.Toke.Caracter;
 import cunoc.practica_1_lfp_2021.Toke.Palabra;
-import cunoc.practica_1_lfp_2021.view.Reportes.ReportesErrores;
+import cunoc.practica_1_lfp_2021.view.Reportes.Reportes;
 import cunoc.practica_1_lfp_2021.view.editorTexto.EditorTexto;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.MenuPrincipal;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.VentanaAnalisando;
@@ -31,7 +28,8 @@ public class Ventana extends JFrame {
     private JPanel JPanel_Venantan = new JPanel();
     private EditorTexto editor = new EditorTexto();
     private VentanaAnalisando analisador = new VentanaAnalisando();
-    private ReportesErrores erroresLexema = new ReportesErrores();
+    private Reportes erroresLexema = new Reportes();
+
     //fin sub ventanas
     public Ventana() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -39,13 +37,14 @@ public class Ventana extends JFrame {
         JPanel_Venantan.setLayout(new CardLayout());
         subVentanas();
     }
+
     // agregar ventanas
     private void subVentanas() {
         carpeta = (CardLayout) JPanel_Venantan.getLayout();
         JPanel_Venantan.add(menuPrincipal, "MenuPrincipal");
         JPanel_Venantan.add(editor, "Editor");
         JPanel_Venantan.add(analisador, "Analisador");
-        JPanel_Venantan.add(erroresLexema, "ErrorLexema");
+        JPanel_Venantan.add(erroresLexema, "Reportes");
     }
 
     // fin agregar ventanas
@@ -56,6 +55,7 @@ public class Ventana extends JFrame {
     }
 
     public void irEditor(String texto, File archivo) {
+        editor = new EditorTexto();
         editor.getjTextArea1().setText(texto);
         editor.setArchivo(archivo);
         carpeta.show(JPanel_Venantan, "Editor");
@@ -68,11 +68,16 @@ public class Ventana extends JFrame {
         carpeta.show(JPanel_Venantan, "Analisador");
         restarurarVentana(480, 360);
     }
+
     public void irReportesError(ArrayList<Palabra> listadoLexemao) {
-        Caracter[] e = {(new Caracter("", ""))};
-        ErrorLexema tipo = new ErrorLexema("", "", ListadoErrorLexema.ALFABETO, e, SOMEBITS, SOMEBITS);
-        erroresLexema.cargarTabla(listadoLexemao, new String[]{""}, tipo);
-        carpeta.show(JPanel_Venantan, "ErrorLexema");
+        erroresLexema.cargarTabla(listadoLexemao, 1);
+        carpeta.show(JPanel_Venantan, "Reportes");
+        restarurarVentana(1280, 640);
+    }
+
+    public void irReportesToken(ArrayList<Palabra> listadoLexemao) {
+        erroresLexema.cargarTabla(listadoLexemao, 2);
+        carpeta.show(JPanel_Venantan, "Reportes");
         restarurarVentana(1280, 640);
     }
 

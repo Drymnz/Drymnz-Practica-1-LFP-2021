@@ -6,6 +6,7 @@ import cunoc.practica_1_lfp_2021.Alfabeto.*;
  * @author Benjamín de Jesús Pérez <@Drymnz>
  */
 public class VerificadorAlfabeto {
+    
 
     /*
     NOTA: esta clase solo pertence a verificar los caracter de un listado enum, para su pertencia de alfabeto

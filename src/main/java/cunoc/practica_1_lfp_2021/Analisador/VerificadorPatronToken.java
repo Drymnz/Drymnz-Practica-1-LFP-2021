@@ -6,11 +6,9 @@
 package cunoc.practica_1_lfp_2021.Analisador;
 
 import cunoc.practica_1_lfp_2021.Alfabeto.ListadoAlfabetoAFD;
-import cunoc.practica_1_lfp_2021.Alfabeto.Puntuacion;
 import cunoc.practica_1_lfp_2021.Errores.ListadoErrorLexema;
 import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
-import cunoc.practica_1_lfp_2021.Toke.Caracter;
-import cunoc.practica_1_lfp_2021.Toke.ListadoToken;
+import cunoc.practica_1_lfp_2021.Toke.*;
 import java.util.ArrayList;
 
 /**
@@ -18,103 +16,113 @@ import java.util.ArrayList;
  */
 public class VerificadorPatronToken {
 
-    private ListadoErrorLexema tipoErro;
-    protected VerificadorAlfabeto verificacionAlfabeto = new VerificadorAlfabeto();
-    protected String palabra;
-    private Caracter[] listadoCaracter;
-    private String listadoErrores = "";
-    private int caracter = 0;// esta variable se encargara si cumple toda la palabra sobre el token
-    private int posicion = 0;
+    private final ListadoAlfabetoAFD[] listadoAlfabeto = ListadoAlfabetoAFD.values();
+    private final ListadoToken[] listadoToken = ListadoToken.values();
+    private final VerificadorAlfabeto verificacionAlfabeto = new VerificadorAlfabeto();
+    private final VerificarToken verificacionToken = new VerificarToken();
+    private  String palabra;
+    private  String listadoError;
+    private  Caracter[] listadoCaracter;
+    private int posicion = 0;// posicion para el listado de caracter
+    private int posicionY;
+    private int posicionX;
 
-    public VerificadorPatronToken(String palabra) {
+    public VerificadorPatronToken(String palabra,int posicionX, int posicionY) {
         this.palabra = palabra;
+        this.posicionY = posicionY;
+        this.posicionX = posicionX;
     }
 
-// los token simples, son los que solo un alfabeto manejan en su exprecion regular
-    public boolean tokenSimple(ListadoToken tipoToken) {
-        ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
+    public Lexema analisarPatron() {
         listadoCaracter = new Caracter[palabra.length()];
-        for (String string : listdo) {
-            switch (tipoToken) {
-                case AGRUPACION:
-                    pertenecePatron(verificacionAlfabeto.agrupacion(string), string, ListadoAlfabetoAFD.AGRUPACION.toString());
-                    break;
-                case OPERADOR:
-                    pertenecePatron(verificacionAlfabeto.operacion(string), string, ListadoAlfabetoAFD.OPERACION.toString());
-                    break;
-                case PUNTUACION:
-                    pertenecePatron(verificacionAlfabeto.puntuacion(string), string, ListadoAlfabetoAFD.PUNTUACION.toString());
-                    break;
-                case NUMERO:
-                    pertenecePatron(verificacionAlfabeto.numero(string), string, ListadoAlfabetoAFD.NUMERO.toString());
-                    break;
-                default:
-                    return false;
-            }
-        }
-        return listdo.size() == caracter;
-    }
-// verificar si es un patron de identificador
-
-    public boolean esPatronIdentificador() {
         ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
-        for (int i = 0; i < listdo.size(); i++) {
-            if (i == 0) {
-                pertenecePatron(verificacionAlfabeto.letra(listdo.get(i)), listdo.get(i) , ListadoAlfabetoAFD.LETRA.toString());
-            } else {
-                switch(verificacionAlfabeto.letra(listdo.get(i))? 1 : (verificacionAlfabeto.numero(listdo.get(i)))? 2 : 3){
-                    case 1: 
-                        pertenecePatron(true, palabra, ListadoAlfabetoAFD.LETRA.toString());
-                        break;
-                    case 2: 
-                        pertenecePatron(true, palabra, ListadoAlfabetoAFD.NUMERO.toString());
-                        break;
-                    case 3: 
-                        pertenecePatron(false, palabra, ListadoAlfabetoAFD.LETRA.toString());
-                        break;
-                }
-            }
-        }
-        return listdo.size() == caracter;
-    }
-// verificar si es un patron de decimal
-
-    public boolean esPatronDecimal() {
-        ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
-        boolean banderaNumero = true;
         for (String string : listdo) {
-            banderaNumero = verificacionAlfabeto.numero(string);
-            if (banderaNumero) {
-                pertenecePatron(banderaNumero, string, ListadoAlfabetoAFD.NUMERO.toString());
-            } else {
-                pertenecePatron((string.equals(Puntuacion.COMMAT.getSimbolo())), palabra,ListadoAlfabetoAFD.PUNTUACION.toString());
-            }
+            ListadoAlfabetoAFD pertence = pertenceAlfabeto(string);
+            listadoCaracter[posicion] = asignarCaracter((pertence == null), pertence, string);
+            posicion++;
         }
-        return listdo.size() == caracter;
+        ListadoToken pertneceToken = pertenceToken(this.listadoCaracter);
+        return asignarPalabra(pertneceToken == null, pertneceToken, palabra);
     }
 
-    // metodo donde vera si aumentar por que su caracter fue correto  o no pertenece al alfabeto
-    protected void pertenecePatron(boolean pertence, String letra, String alfabeto) {
-        if (pertence) {
-            listadoCaracter[posicion] = new Caracter(letra, alfabeto);
-            caracter++;
+    // verificar si esta dentro del alfabeto que del enum
+    public ListadoAlfabetoAFD pertenceAlfabeto(String string) {
+        for (ListadoAlfabetoAFD listadoAlfabetoAFD : listadoAlfabeto) {
+            if (asignarAlfabeto(listadoAlfabetoAFD, string)) {
+                return listadoAlfabetoAFD;
+            }
+        }
+        return null;
+    }
+
+    // ver si el caracter pertenece al alfabeto
+    public boolean asignarAlfabeto(ListadoAlfabetoAFD tipoToken, String string) {
+        switch (tipoToken) {
+            case AGRUPACION:
+                return verificacionAlfabeto.agrupacion(string);
+            case OPERACION:
+                return verificacionAlfabeto.operacion(string);
+            case PUNTUACION:
+                return verificacionAlfabeto.puntuacion(string);
+            case NUMERO:
+                return verificacionAlfabeto.numero(string);
+            case LETRA:
+                return verificacionAlfabeto.letra(string);
+            default:
+                return false;
+        }
+    }
+
+    // asignar el caracter a listado de caracter para forma la palabra
+    private Caracter asignarCaracter(boolean error, ListadoAlfabetoAFD pertence, String letra) {
+        if (error) {
+            return new Caracter(letra, ListadoErrorLexema.ALFABETO.getNombre());
         } else {
-            listadoCaracter[posicion] = new Caracter(letra, ListadoErrorLexema.ALFABETO.toString());
-            tipoErro = ListadoErrorLexema.ALFABETO;
-            listadoErrores += (letra + ",");
+            listadoError += letra;
+            return new Caracter(letra, pertence.toString());
         }
-        posicion++;
     }
 
-    public ListadoErrorLexema getTipoErro() {
-        return tipoErro;
+    // verifica que token le pertence sino hay return null
+    public ListadoToken pertenceToken(Caracter[] palabra) {
+        for (ListadoToken listadoToken : listadoToken) {
+            if (pertneceAlToken(listadoToken, palabra)) {
+                return listadoToken;
+            }
+        }
+        return null;
     }
 
-    public String getListadoErrores() {
-        return listadoErrores;
+    ///busca si pertene a un toke
+    public boolean pertneceAlToken(ListadoToken tipoToken, Caracter[] palabra) {
+        verificacionToken.setContador(0);
+        switch (tipoToken) {
+            case AGRUPACION:
+                return verificacionToken.agrupacion(palabra);
+            case NUMERO:
+                return verificacionToken.numeroEntero(palabra);
+            case OPERADOR:
+                return verificacionToken.operacion(palabra);
+            case PUNTUACION:
+                return verificacionToken.puntuacion(palabra);
+            case IDENTIFICADOR:
+                return verificacionToken.esPatronIdentificador(palabra);
+            case DECIMAL:
+                return verificacionToken.esPatronDecimal(palabra);
+            default:
+                return false;
+        }
     }
-// get y set 
 
+    private Lexema asignarPalabra(boolean error, ListadoToken pertneceToken, String palabra) {
+        if (error) {
+            return null;
+        } else {
+            return new Lexema(pertneceToken, listadoCaracter,posicionX , posicionY);
+        }
+    }
+    
+    // get y set 
     public String getPalabra() {
         return palabra;
     }
@@ -126,9 +134,9 @@ public class VerificadorPatronToken {
     public Caracter[] getListadoCaracter() {
         return listadoCaracter;
     }
-    public void reiniciar (String palabra){
+
+    public void reiniciar(String palabra) {
         this.palabra = palabra;
-        this.caracter = 0;
         this.posicion = 0;
     }
     // fin get y set 

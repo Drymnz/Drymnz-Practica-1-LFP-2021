@@ -5,93 +5,101 @@
  */
 package cunoc.practica_1_lfp_2021.Errores;
 
-import cunoc.practica_1_lfp_2021.Alfabeto.ListadoAlfabetoAFD;
-import cunoc.practica_1_lfp_2021.Alfabeto.Puntuacion;
-import cunoc.practica_1_lfp_2021.Analisador.Categorizador;
 import cunoc.practica_1_lfp_2021.Analisador.VerificadorPatronToken;
-import cunoc.practica_1_lfp_2021.Toke.Caracter;
-import cunoc.practica_1_lfp_2021.Toke.ListadoToken;
+import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
+import cunoc.practica_1_lfp_2021.Toke.*;
 
 /**
  * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class RecuperacionError {
 
-    private VerificadorPatronToken verificadorPatron;
-    private Categorizador verTipoToken;
-
+    private VerificadorPatronToken buscar;
+    private String caracterDondeFallo = "";
     private final String INDICAR = "<-- Error, en ";
-    private final String INDICARTOKEN = ", pero dectecta token : ";
+    private final String INDICARENCONTRO = ", pero dectecta ";
+    private final String INDICARTOKEN = " token : ";
+    private int posicionY;
+    private int posicionX;
 
-    public RecuperacionError(VerificadorPatronToken verificadorPatron, Categorizador verTipoToken) {
-        this.verificadorPatron = verificadorPatron;
-        this.verTipoToken = verTipoToken;
+    public RecuperacionError(VerificadorPatronToken buscar, int posicionY, int posicionX) {
+        this.buscar = buscar;
+        this.posicionY = posicionY;
+        this.posicionX = posicionX;
     }
 
-    public String recuperarError() {
-        String returnarString = "";
-        String ultimoCaracter = "";
-        returnarString += indicar();
-        boolean primeraVez = true;
-        Caracter[] listadoCaracter = verificadorPatron.getListadoCaracter();
-        String palabra = listadoCaracter[0].getCaracter();
-        for (int i = 0; i < (listadoCaracter.length - 1); i++) {
-            if (listadoCaracter[i].getAlfabeto().equals(ultimoCaracter = listadoCaracter[i + 1].getAlfabeto())) {
-                palabra += listadoCaracter[i + 1].getCaracter();
-            } else if ((tokenComplejo(palabra, listadoCaracter[i], listadoCaracter[i + 1]))) {
-                palabra += listadoCaracter[i + 1].getCaracter();
-            } else {
-                returnarString = tokenPosibles(primeraVez, palabra, 
-                        verTipoToken.tipoToken(palabra)
-                        , palabra + listadoCaracter[i+1].getCaracter());
-                palabra = "";
-                primeraVez = false;
+    public Palabra recuperarError() {
+
+        //recuperacionErro = 585f3.40 <--Error en 585f , pero dectectado token decimal = 3.5
+        String recuperacionError = (new ManejadorTexto().convertirListadoCaracter(buscar.getListadoCaracter()))
+                + INDICAR
+                + buscarPalabraMasPrimeroError()
+                + INDICARENCONTRO
+                + todoLosTokenPosibles();
+        return new ErrorLexema(caracterDondeFallo, recuperacionError, ListadoErrorLexema.ALFABETO, buscar.getListadoCaracter(), posicionX, posicionY);
+    }
+
+    // buscar el primer error
+    private String buscarPalabraMasPrimeroError() {
+        String encontre = "";
+        Caracter[] listado = buscar.getListadoCaracter();
+        for (int i = 0; i < listado.length; i++) {
+            encontre += listado[i].getCaracter();
+            if (listado[i].getAlfabeto().equals(ListadoErrorLexema.ALFABETO.getNombre())) {
+                encontre += listado[i].getCaracter();
+                return (encontre);
             }
         }
-        if (!palabra.isEmpty()) {
-            returnarString = tokenPosibles(primeraVez, palabra, 
-                        verTipoToken.tipoToken(palabra)
-                        , palabra + ultimoCaracter);
-                palabra = "";
-        }
-        return returnarString;
+        return encontre;
     }
 
-    private boolean tokenComplejo(String palabra, Caracter anterior, Caracter siguiente) {
-        //si es un id con empieza con letra y pude ir (numero)+ | (letras)+
-        verificadorPatron.reiniciar(palabra);
-        if (verificadorPatron.esPatronIdentificador()) {
-            if ((siguiente.getAlfabeto().equals(ListadoAlfabetoAFD.LETRA.toString())) || (siguiente.getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString()))) {
-                return true;
-            } else {
-                return false;
+    // returnara un string con todos los identificador = fafasd, numero = 1564 POTS SE PUEDE MEJORAR
+    private String todoLosTokenPosibles() {
+        String encotnre = "";
+        String palabraPrueva = "";
+        String palabraAntesAdd = "";
+        String palabraDespuesAdd = "";
+        Caracter[] listado = buscar.getListadoCaracter();
+        ListadoToken token = null;
+        Lexema verificar = null;
+        for (int i = 0; i < (listado.length - 1); i++) {
+            if (!listado[i].getAlfabeto().equals(ListadoErrorLexema.ALFABETO.getNombre())) {
+                palabraAntesAdd = palabraPrueva;
+                palabraPrueva += listado[i].getCaracter();
+                verificar = (new VerificadorPatronToken(palabraPrueva, posicionY, posicionX)).analisarPatron();
+                if (verificar != null) {
+                    token = verificar.getTipoToken();
+                    palabraDespuesAdd = palabraPrueva;
+                } else if (token != null) {
+                    indicarSimboloError(listado[i].getCaracter());
+                    encotnre += indicarToken(token, palabraAntesAdd);
+                    palabraPrueva = "";
+                    palabraAntesAdd = "";
+                    palabraDespuesAdd = "";
+                }
+            } else if (!palabraAntesAdd.isEmpty() && verificar != null && token != null) {
+                encotnre += indicarToken(token, palabraAntesAdd);
+                indicarSimboloError(listado[i].getCaracter());
             }
         }
-        //si es un decimal con estructura de muchos numeros + (punto . )  muchos numeros +
-        if ( (anterior.getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString()) && siguiente.getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())) 
-                | 
-                (anterior.getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString()) && siguiente.getAlfabeto().equals(Puntuacion.POINT.getSimbolo()))
-                    |
-                    ( anterior.getAlfabeto().equals(Puntuacion.POINT.getSimbolo()) && siguiente.getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString()))) {
-            return true;
+        if (token != null) {
+            encotnre += indicarToken(token, palabraDespuesAdd);
+            //listado[listado.length-1] ver que tipo es el ultimo
+            verificar = (new VerificadorPatronToken(listado[listado.length - 1].getCaracter(), posicionY, posicionX)).analisarPatron();
+            if (verificar != null && verificar.getTipoToken() != null) {
+                encotnre += indicarToken(verificar.getTipoToken(), listado[listado.length - 1].getCaracter());
+            }
+            indicarSimboloError(listado[listado.length - 1].getCaracter());
         }
-        return false;
+        return encotnre;
     }
 
-    private String indicar() {
-        return verificadorPatron.getPalabra() + INDICAR;
-    }
-
-    private String tokenPosibles(boolean primeraVez, String en, ListadoToken token, String stringToken) {
-        if (primeraVez) {
-            // 585f3.40 <--Error en 585f , pero dectectado token decimal = 3.5
-            return en + INDICARTOKEN + indicarToken(token, INDICARTOKEN);
-        } else {
-            return indicarToken(token, INDICARTOKEN);
-        }
+    private void indicarSimboloError(String simbolo) {
+        caracterDondeFallo += "( "+ simbolo + ")";
     }
 
     private String indicarToken(ListadoToken token, String stringToken) {
-        return token.getNombre()+ " = " + stringToken + ",";
+        //  token decimal = 3.5 o todo token que esta en la app
+        return "TOKEN"+token.getNombre() + " = " + stringToken + ",  ";
     }
 }

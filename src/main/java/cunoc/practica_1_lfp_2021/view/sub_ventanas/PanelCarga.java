@@ -10,7 +10,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 /**
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class PanelCarga extends JPanel {
 
