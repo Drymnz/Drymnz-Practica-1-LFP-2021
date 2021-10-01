@@ -14,11 +14,13 @@ import cunoc.practica_1_lfp_2021.Toke.*;
  */
 public class RecuperacionError {
 
-    private VerificadorPatronToken buscar;
-    private String caracterDondeFallo = "";
     private final String INDICAR = "<-- Error, en ";
     private final String INDICARENCONTRO = ", pero dectecta ";
-    private final String INDICARTOKEN = " token : ";
+    private final String INDICARTOKEN = " TOKEN : ";
+
+    private VerificadorPatronToken buscar;
+    private String caracterDondeFallo = "";
+
     private int posicionY;
     private int posicionX;
 
@@ -44,62 +46,64 @@ public class RecuperacionError {
         String encontre = "";
         Caracter[] listado = buscar.getListadoCaracter();
         for (int i = 0; i < listado.length; i++) {
-            encontre += listado[i].getCaracter();
-            if (listado[i].getAlfabeto().equals(ListadoErrorLexema.ALFABETO.getNombre())) {
+            if ((listado[i].getAlfabeto().equals(ListadoErrorLexema.ALFABETO.getNombre()))) {
                 encontre += listado[i].getCaracter();
                 return (encontre);
             }
+            encontre += listado[i].getCaracter();
         }
         return encontre;
     }
 
     // returnara un string con todos los identificador = fafasd, numero = 1564 POTS SE PUEDE MEJORAR
     private String todoLosTokenPosibles() {
-        String encotnre = "";
-        String palabraPrueva = "";
-        String palabraAntesAdd = "";
-        String palabraDespuesAdd = "";
+        // String[] list --> 1 encontro, 2:palabraPrueva, 3:palabraAntesAdd, 4palabraDespuesAdd
+        String[] list = {"", "", "", "", ""};
         Caracter[] listado = buscar.getListadoCaracter();
         ListadoToken token = null;
         Lexema verificar = null;
         for (int i = 0; i < (listado.length - 1); i++) {
             if (!listado[i].getAlfabeto().equals(ListadoErrorLexema.ALFABETO.getNombre())) {
-                palabraAntesAdd = palabraPrueva;
-                palabraPrueva += listado[i].getCaracter();
-                verificar = (new VerificadorPatronToken(palabraPrueva, posicionY, posicionX)).analisarPatron();
+                list[2] = list[1];
+                list[1] += listado[i].getCaracter();
+                verificar = (new VerificadorPatronToken(list[1], posicionY, posicionX)).analisarPatron();
                 if (verificar != null) {
                     token = verificar.getTipoToken();
-                    palabraDespuesAdd = palabraPrueva;
+                    list[3] = list[1];
                 } else if (token != null) {
                     indicarSimboloError(listado[i].getCaracter());
-                    encotnre += indicarToken(token, palabraAntesAdd);
-                    palabraPrueva = "";
-                    palabraAntesAdd = "";
-                    palabraDespuesAdd = "";
+                    list[0] += indicarToken(token, list[2]);
+                    for (int j = 1; j < list.length; j++) {
+                        list[j] = "";
+                    }
+                    verificar = (new VerificadorPatronToken(listado[i].getCaracter(), posicionY, posicionX)).analisarPatron();
+                    if (verificar != null) {
+                        list[0] += indicarToken(token, listado[i].getCaracter());
+                    }
                 }
-            } else if (!palabraAntesAdd.isEmpty() && verificar != null && token != null) {
-                encotnre += indicarToken(token, palabraAntesAdd);
+            } else if (!list[2].isEmpty() && verificar != null && token != null) {
+                list[0] += indicarToken(token, list[2]);
                 indicarSimboloError(listado[i].getCaracter());
             }
         }
         if (token != null) {
-            encotnre += indicarToken(token, palabraDespuesAdd);
+            list[0] += indicarToken(token, list[3]);
             //listado[listado.length-1] ver que tipo es el ultimo
             verificar = (new VerificadorPatronToken(listado[listado.length - 1].getCaracter(), posicionY, posicionX)).analisarPatron();
             if (verificar != null && verificar.getTipoToken() != null) {
-                encotnre += indicarToken(verificar.getTipoToken(), listado[listado.length - 1].getCaracter());
+                list[0] += indicarToken(verificar.getTipoToken(), listado[listado.length - 1].getCaracter());
             }
             indicarSimboloError(listado[listado.length - 1].getCaracter());
         }
-        return encotnre;
+        return list[0];
     }
 
     private void indicarSimboloError(String simbolo) {
-        caracterDondeFallo += "( "+ simbolo + ")";
+        caracterDondeFallo += "< " + simbolo + ">";
     }
 
     private String indicarToken(ListadoToken token, String stringToken) {
         //  token decimal = 3.5 o todo token que esta en la app
-        return "TOKEN"+token.getNombre() + " = " + stringToken + ",  ";
+        return INDICARTOKEN + token.getNombre() + " = " + stringToken + ",  ";
     }
 }

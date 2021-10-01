@@ -20,14 +20,14 @@ public class VerificadorPatronToken {
     private final ListadoToken[] listadoToken = ListadoToken.values();
     private final VerificadorAlfabeto verificacionAlfabeto = new VerificadorAlfabeto();
     private final VerificarToken verificacionToken = new VerificarToken();
-    private  String palabra;
-    private  String listadoError;
-    private  Caracter[] listadoCaracter;
+    private String palabra;
+    private String listadoError;
+    private Caracter[] listadoCaracter;
     private int posicion = 0;// posicion para el listado de caracter
     private int posicionY;
     private int posicionX;
 
-    public VerificadorPatronToken(String palabra,int posicionX, int posicionY) {
+    public VerificadorPatronToken(String palabra, int posicionX, int posicionY) {
         this.palabra = palabra;
         this.posicionY = posicionY;
         this.posicionX = posicionX;
@@ -37,9 +37,11 @@ public class VerificadorPatronToken {
         listadoCaracter = new Caracter[palabra.length()];
         ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
         for (String string : listdo) {
-            ListadoAlfabetoAFD pertence = pertenceAlfabeto(string);
-            listadoCaracter[posicion] = asignarCaracter((pertence == null), pertence, string);
-            posicion++;
+            if (!string.equals("\\")) {
+                ListadoAlfabetoAFD pertence = pertenceAlfabeto(string);
+                listadoCaracter[posicion] = asignarCaracter((pertence == null), pertence, string);
+                posicion++;
+            }
         }
         ListadoToken pertneceToken = pertenceToken(this.listadoCaracter);
         return asignarPalabra(pertneceToken == null, pertneceToken, palabra);
@@ -118,10 +120,10 @@ public class VerificadorPatronToken {
         if (error) {
             return null;
         } else {
-            return new Lexema(pertneceToken, listadoCaracter,posicionX , posicionY);
+            return new Lexema(pertneceToken, listadoCaracter, posicionX, posicionY);
         }
     }
-    
+
     // get y set 
     public String getPalabra() {
         return palabra;

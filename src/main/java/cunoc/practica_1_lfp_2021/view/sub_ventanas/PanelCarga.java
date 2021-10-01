@@ -57,6 +57,48 @@ public class PanelCarga extends JPanel {
     }
 
     private int calculoPorcentaje() {
-       return (int) (( this.progreso / this.getWidth()) * 100);
+        return (int) ((this.progreso / this.getWidth()) * 100);
     }
+
+    //set y get
+    public String getNombreCarga() {
+        return nombreCarga;
+    }
+
+    public void setNombreCarga(String nombreCarga) {
+        this.nombreCarga = nombreCarga;
+    }
+
+    public double getProgreso() {
+        return progreso;
+    }
+
+    public void setProgreso(double progreso) {
+        this.progreso = progreso;
+    }
+
+    public Color getFondo() {
+        return fondo;
+    }
+
+    public void setFondo(Color fondo) {
+        this.fondo = fondo;
+    }
+
+    public Color getColorProgreso() {
+        return colorProgreso;
+    }
+
+    public void setColorProgreso(Color colorProgreso) {
+        this.colorProgreso = colorProgreso;
+    }
+
+    public Color getColorLetra() {
+        return colorLetra;
+    }
+
+    public void setColorLetra(Color colorLetra) {
+        this.colorLetra = colorLetra;
+    }
+    //fin set y get
 }

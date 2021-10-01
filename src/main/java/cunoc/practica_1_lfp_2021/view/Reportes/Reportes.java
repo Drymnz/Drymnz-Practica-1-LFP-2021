@@ -18,9 +18,8 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
-public class Reportes extends javax.swing.JPanel implements Runnable {
+public class Reportes extends javax.swing.JPanel {
 
-    private Thread arranque = new Thread(this);
     private DefaultTableModel modelo;
     private ArrayList<Palabra> listadoLexema;
 
@@ -29,88 +28,6 @@ public class Reportes extends javax.swing.JPanel implements Runnable {
      */
     public Reportes() {
         initComponents();
-    }
-
-    /*
-     int tipoTabla 
-    1 = reporteErrores
-    2 = reporteTokens
-    3 = reporteTokensResumido
-    4 = Recuperador Error
-     */
-    public void cargarTabla(ArrayList<Palabra> listadoLexema, int tipoTabla) {
-        this.listadoLexema = listadoLexema;
-        modelo = (DefaultTableModel) jTableReporte.getModel();
-        cargar(tipoTabla);
-    }
-
-    private void cargar(int tipoTabla) {
-        refrescar();
-        desctivarBotones(tipoTabla);
-        modelo.setColumnIdentifiers(titulos(tipoTabla));
-        cargarTabla(tipoTabla);
-    }
-
-    private void cargarTabla(int tipoTabla) {
-        if (arranque.isAlive()) {
-            arranque.stop();
-        }
-        if (tipoTabla == 3) {
-            arranque.start();
-        } else {
-            for (Palabra palabra : listadoLexema) {
-                Object[] asignar = segunTipo(palabra, tipoTabla);
-                if (asignar != null) {
-                    modelo.addRow(asignar);
-                }
-            }
-        }
-    }
-// asignar los titulos de la tabla
-
-    private Object[] segunTipo(Palabra comparar, int tipo) {
-        switch (tipo) {
-            case 1:
-                if ((comparar instanceof ErrorLexema)) {
-                    ErrorLexema ver = (ErrorLexema) comparar;
-                    // {"simbolo o cadena de erro", "posicionY","posicionX"};
-                    return new Object[]{ver.getCaracter(), ver.getPosicionX(), ver.getPosicionY()};
-                }
-                break;
-            case 2:
-                if ((comparar instanceof Lexema)) {
-                    Lexema ver = (Lexema) comparar;
-                    //{"nombre del token", "lexema", "posicionX","posicionY"};
-                    return new Object[]{ver.getTipoToken().getNombre(), (new ManejadorTexto()).convertirListadoCaracter(ver.getPalabra()), ver.getPosicionX(), ver.getPosicionY()};
-                }
-                break;
-            case 4:
-                if ((comparar instanceof ErrorLexema)) {
-                    ErrorLexema ver = (ErrorLexema) comparar;
-                    // {"recuperar error"};
-                    return new Object[]{ver.getRecuperacionError()};
-                }
-                break;
-        }
-        return null;
-    }
-
-    private String[] titulos(int tipo) {
-        switch (tipo) {
-            case 1:
-                String[] reporteErrores = {"simbolo o cadena de erro", "posicionX", "posicionY"};
-                return reporteErrores;
-            case 2:
-                String[] reporteTokens = {"nombre del token", "lexema", "posicionX", "posicionY"};
-                return reporteTokens;
-            case 3:
-                String[] reporteTokensResumido = {"lexema", "token", "cantidad"};
-                return reporteTokensResumido;
-            case 4:
-                String[] reporteErroresRecuperar = {"recuperar error"};
-                return reporteErroresRecuperar;
-        }
-        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -232,31 +149,106 @@ public class Reportes extends javax.swing.JPanel implements Runnable {
     3 = reporteTokensResumido
     4 = Recuperador Error
      */
+    public void cargarTabla(ArrayList<Palabra> listadoLexema, int tipoTabla) {
+        this.listadoLexema = listadoLexema;
+        modelo = (DefaultTableModel) jTableReporte.getModel();
+        cargar(tipoTabla);
+    }
+
+    private void cargar(int tipoTabla) {
+        refrescar();
+        desctivarBotones(tipoTabla);
+        modelo.setColumnIdentifiers(titulos(tipoTabla));
+        cargarTabla(tipoTabla);
+    }
+
+    private void cargarTabla(int tipoTabla) {
+        if (tipoTabla == 3) {
+            recontarToken();
+        } else {
+            for (Palabra palabra : listadoLexema) {
+                Object[] asignar = segunTipo(palabra, tipoTabla);
+                if (asignar != null) {
+                    modelo.addRow(asignar);
+                }
+            }
+        }
+    }
+//( asignar datos de la tabla
+
+    private Object[] segunTipo(Palabra comparar, int tipo) {
+        if (comparar != null) {
+            switch (tipo) {
+                case 1:
+                    if ((comparar instanceof ErrorLexema)) {
+                        ErrorLexema ver = (ErrorLexema) comparar;
+                        // {"simbolo o cadena de erro", "posicionY","posicionX"};
+                        return new Object[]{ver.getCaracter(), ver.getPosicionX(), ver.getPosicionY()};
+                    }
+                    break;
+                case 2:
+                    if ((comparar instanceof Lexema)) {
+                        Lexema ver = (Lexema) comparar;
+                        //{"nombre del token", "lexema", "posicionX","posicionY"};
+                        return new Object[]{ver.getTipoToken().getNombre(), (new ManejadorTexto()).convertirListadoCaracter(ver.getPalabra()), ver.getPosicionX(), ver.getPosicionY()};
+                    }
+                    break;
+                case 4:
+                    if ((comparar instanceof ErrorLexema)) {
+                        ErrorLexema ver = (ErrorLexema) comparar;
+                        // {"recuperar error"};
+                        return new Object[]{ver.getRecuperacionError()};
+                    }
+                    break;
+            }
+        }
+        return null;
+    }
+// asignar los titulos de la tabla
+
+    private String[] titulos(int tipo) {
+        switch (tipo) {
+            case 1:
+                String[] reporteErrores = {"simbolo o cadena de erro", "posicionX", "posicionY"};
+                return reporteErrores;
+            case 2:
+                String[] reporteTokens = {"nombre del token", "lexema", "posicionX", "posicionY"};
+                return reporteTokens;
+            case 3:
+                String[] reporteTokensResumido = {"lexema", "token", "cantidad"};
+                return reporteTokensResumido;
+            case 4:
+                String[] reporteErroresRecuperar = {"recuperar error"};
+                return reporteErroresRecuperar;
+        }
+        String[] retunrnar = {"", "", "", ""};
+        return retunrnar;
+    }
+
+    /*
+     int tipoTabla 
+    1 = reporteErrores
+    2 = reporteTokens
+    3 = reporteTokensResumido
+    4 = Recuperador Error
+     */
     private void desctivarBotones(int tipo) {
+        jButtonRecuperadorError.setVisible(false);
+        jButtonReportesError.setVisible(false);
+        jButtonRerpoteToken.setVisible(false);
+        jButtonResumenToken.setVisible(false);
         switch (tipo) {
             case 1:
                 jButtonRecuperadorError.setVisible(true);
-                jButtonReportesError.setVisible(false);
-                jButtonRerpoteToken.setVisible(false);
-                jButtonResumenToken.setVisible(false);
                 break;
             case 2:
-                jButtonRecuperadorError.setVisible(false);
-                jButtonReportesError.setVisible(false);
-                jButtonRerpoteToken.setVisible(false);
                 jButtonResumenToken.setVisible(true);
                 break;
             case 3:
-                jButtonRecuperadorError.setVisible(false);
-                jButtonReportesError.setVisible(false);
                 jButtonRerpoteToken.setVisible(true);
-                jButtonResumenToken.setVisible(false);
                 break;
             case 4:
-                jButtonRecuperadorError.setVisible(false);
                 jButtonReportesError.setVisible(true);
-                jButtonRerpoteToken.setVisible(false);
-                jButtonResumenToken.setVisible(false);
                 break;
         }
     }
@@ -270,18 +262,9 @@ public class Reportes extends javax.swing.JPanel implements Runnable {
             }
         }
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonRecuperadorError;
-    private javax.swing.JButton jButtonRegrasarMenuPrincipal;
-    private javax.swing.JButton jButtonReportesError;
-    private javax.swing.JButton jButtonRerpoteToken;
-    private javax.swing.JButton jButtonResumenToken;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableReporte;
-    // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void run() {
+    // recontar token
+    private void recontarToken() {
         ListadoToken[] listadoToken = ListadoToken.values();
         for (ListadoToken listadoToken1 : listadoToken) {
             int cantidadToken = 0;
@@ -298,4 +281,14 @@ public class Reportes extends javax.swing.JPanel implements Runnable {
             modelo.addRow((new Object[]{lexema, listadoToken1, cantidadToken}));
         }
     }
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonRecuperadorError;
+    private javax.swing.JButton jButtonRegrasarMenuPrincipal;
+    private javax.swing.JButton jButtonReportesError;
+    private javax.swing.JButton jButtonRerpoteToken;
+    private javax.swing.JButton jButtonResumenToken;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableReporte;
+    // End of variables declaration//GEN-END:variables
+
 }
