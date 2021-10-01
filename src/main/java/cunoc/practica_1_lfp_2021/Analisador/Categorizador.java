@@ -33,6 +33,7 @@ public class Categorizador extends Thread {
     private void categorizar() {
         int totalLetra = this.texto.length();
         int contador = 0;
+        mostrarProgreso.setProgresoReferente(totalLetra, contador);
         ArrayList<String> analisar = (new ManejadorTexto()).dividirTextoLetras(texto);
         String palabra = "";
         for (String caracterAnalisar : analisar) {

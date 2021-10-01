@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>run</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
+            </goals>
+            <properties>
+                <exec.vmArgs></exec.vmArgs>
+                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+                <exec.appArgs></exec.appArgs>
+                <exec.mainClass>cunoc.practica_1_lfp_2021.Start</exec.mainClass>
+                <exec.executable>java</exec.executable>
+                <exec.workingdir>/mnt/C824571C24570CB6/NetBeansProjects/Practica_1_LFP_2021</exec.workingdir>
+            </properties>
+        </action>
+        <action>
+            <actionName>debug</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
+            </goals>
+            <properties>
+                <exec.vmArgs>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
+                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+                <exec.appArgs></exec.appArgs>
+                <exec.mainClass>cunoc.practica_1_lfp_2021.Start</exec.mainClass>
+                <exec.executable>java</exec.executable>
+                <jpda.listen>true</jpda.listen>
+                <exec.workingdir>/mnt/C824571C24570CB6/NetBeansProjects/Practica_1_LFP_2021</exec.workingdir>
+            </properties>
+        </action>
+        <action>
+            <actionName>profile</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
+            </goals>
+            <properties>
+                <exec.vmArgs></exec.vmArgs>
+                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+                <exec.mainClass>cunoc.practica_1_lfp_2021.Start</exec.mainClass>
+                <exec.executable>java</exec.executable>
+                <exec.appArgs></exec.appArgs>
+                <exec.workingdir>/mnt/C824571C24570CB6/NetBeansProjects/Practica_1_LFP_2021</exec.workingdir>
+            </properties>
+        </action>
+    </actions>
