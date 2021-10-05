@@ -6,7 +6,8 @@
 package cunoc.practica_1_lfp_2021.view;
 
 import cunoc.practica_1_lfp_2021.Toke.Palabra;
-import cunoc.practica_1_lfp_2021.view.Reportes.Reportes;
+import cunoc.practica_1_lfp_2021.view.Reportes.ReportesError;
+import cunoc.practica_1_lfp_2021.view.Reportes.ReportesLexemas;
 import cunoc.practica_1_lfp_2021.view.editorTexto.EditorTexto;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.MenuPrincipal;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.VentanaAnalisando;
@@ -28,7 +29,8 @@ public class Ventana extends JFrame {
     private JPanel JPanel_Venantan = new JPanel();
     private EditorTexto editor = new EditorTexto();
     private VentanaAnalisando analisador = new VentanaAnalisando();
-    private Reportes erroresLexema = new Reportes();
+    private ReportesError erroresLexema = new ReportesError();
+    private ReportesLexemas reportesLexema = new ReportesLexemas();
 
     //fin sub ventanas
     public Ventana() {
@@ -44,7 +46,8 @@ public class Ventana extends JFrame {
         JPanel_Venantan.add(menuPrincipal, "MenuPrincipal");
         JPanel_Venantan.add(editor, "Editor");
         JPanel_Venantan.add(analisador, "Analisador");
-        JPanel_Venantan.add(erroresLexema, "Reportes");
+        JPanel_Venantan.add(erroresLexema, "ReportesError");
+        JPanel_Venantan.add(reportesLexema, "ReportesLexemas");
     }
 
     // fin agregar ventanas
@@ -69,14 +72,14 @@ public class Ventana extends JFrame {
     }
 
     public void irReportesError(ArrayList<Palabra> listadoLexemao) {
-        erroresLexema.cargarTabla(listadoLexemao, 1);
-        carpeta.show(JPanel_Venantan, "Reportes");
+        erroresLexema.cargarTablas(listadoLexemao);
+        carpeta.show(JPanel_Venantan, "ReportesError");
         restarurarVentana(1280, 640);
     }
 
     public void irReportesToken(ArrayList<Palabra> listadoLexemao) {
-        erroresLexema.cargarTabla(listadoLexemao, 2);
-        carpeta.show(JPanel_Venantan, "Reportes");
+        reportesLexema.cargarTablas(listadoLexemao);
+        carpeta.show(JPanel_Venantan, "ReportesLexemas");
         restarurarVentana(1280, 640);
     }
 

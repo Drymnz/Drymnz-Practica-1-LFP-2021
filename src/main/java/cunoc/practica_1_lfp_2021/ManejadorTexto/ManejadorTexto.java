@@ -7,22 +7,10 @@ package cunoc.practica_1_lfp_2021.ManejadorTexto;
 
 import cunoc.practica_1_lfp_2021.Toke.Caracter;
 import java.util.ArrayList;
-
 /**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class ManejadorTexto {
-
-    private int posicionInicial;
-
-    public ManejadorTexto(int posicionInicial) {
-        this.posicionInicial = posicionInicial;
-    }
-
-    public ManejadorTexto() {
-        this(0);
-    }
 
     public ArrayList<String> dividirTextoLetras(String texto) {
         ArrayList<String> listado = new ArrayList();

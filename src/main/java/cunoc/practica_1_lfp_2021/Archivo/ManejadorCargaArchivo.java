@@ -14,8 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class ManejadorCargaArchivo {
 

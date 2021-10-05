@@ -37,14 +37,12 @@ public class VerificadorPatronToken {
         listadoCaracter = new Caracter[palabra.length()];
         ArrayList<String> listdo = (new ManejadorTexto()).dividirTextoLetras(palabra);
         for (String string : listdo) {
-            if (!string.equals("\\")) {
-                ListadoAlfabetoAFD pertence = pertenceAlfabeto(string);
-                listadoCaracter[posicion] = asignarCaracter((pertence == null), pertence, string);
-                posicion++;
-            }
+            ListadoAlfabetoAFD pertence = pertenceAlfabeto(string);
+            listadoCaracter[posicion] = asignarCaracter((pertence == null), pertence, string);
+            posicion++;
         }
         ListadoToken pertneceToken = pertenceToken(this.listadoCaracter);
-        return asignarPalabra(pertneceToken == null, pertneceToken, palabra);
+        return asignarPalabra(pertneceToken == null, pertneceToken);
     }
 
     // verificar si esta dentro del alfabeto que del enum
@@ -116,7 +114,7 @@ public class VerificadorPatronToken {
         }
     }
 
-    private Lexema asignarPalabra(boolean error, ListadoToken pertneceToken, String palabra) {
+    private Lexema asignarPalabra(boolean error, ListadoToken pertneceToken) {
         if (error) {
             return null;
         } else {

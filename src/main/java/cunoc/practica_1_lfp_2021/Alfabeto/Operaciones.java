@@ -6,8 +6,7 @@
 package cunoc.practica_1_lfp_2021.Alfabeto;
 
 /**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public enum Operaciones {
     MORE("+"),

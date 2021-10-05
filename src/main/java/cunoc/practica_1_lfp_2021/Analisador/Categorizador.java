@@ -74,11 +74,17 @@ public class Categorizador extends Thread {
     }
 
     private void irReportes() {
-        if (errorLexema) {
-            Start.ejecutar.irReportesError(listadoPalbras);
-        } else {
-            Start.ejecutar.irReportesToken(listadoPalbras);
+        try {
+            if (errorLexema) {
+                Start.ejecutar.irReportesError(listadoPalbras);
+            } else {
+                Start.ejecutar.irReportesToken(listadoPalbras);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Al ir reportes");
         }
+
     }
 
     @Override

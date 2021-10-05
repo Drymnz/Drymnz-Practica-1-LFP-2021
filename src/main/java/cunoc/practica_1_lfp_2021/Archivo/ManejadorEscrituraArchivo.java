@@ -13,8 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
+ * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class ManejadorEscrituraArchivo {
 

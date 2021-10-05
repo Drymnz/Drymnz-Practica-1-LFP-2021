@@ -6,7 +6,6 @@
 package cunoc.practica_1_lfp_2021.Alfabeto;
 
 /**
- *
  * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public enum ListadoAlfabetoAFD {

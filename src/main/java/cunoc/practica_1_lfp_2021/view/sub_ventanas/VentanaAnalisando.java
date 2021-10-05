@@ -30,8 +30,8 @@ public class VentanaAnalisando extends javax.swing.JPanel {
     private void initComponents() {
 
         panelCarga1 = new cunoc.practica_1_lfp_2021.view.sub_ventanas.PanelCarga();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonIniciar = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
 
         javax.swing.GroupLayout panelCarga1Layout = new javax.swing.GroupLayout(panelCarga1);
         panelCarga1.setLayout(panelCarga1Layout);
@@ -44,17 +44,17 @@ public class VentanaAnalisando extends javax.swing.JPanel {
             .addGap(0, 45, Short.MAX_VALUE)
         );
 
-        jButton1.setText("Iniciar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonIniciar.setText("Iniciar");
+        jButtonIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonIniciarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonCancelarActionPerformed(evt);
             }
         });
 
@@ -67,9 +67,9 @@ public class VentanaAnalisando extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelCarga1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(jButtonIniciar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(jButtonCancelar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -79,23 +79,23 @@ public class VentanaAnalisando extends javax.swing.JPanel {
                 .addComponent(panelCarga1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonIniciar)
+                    .addComponent(jButtonCancelar))
                 .addContainerGap(125, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIniciarActionPerformed
         iniciar = new Thread(new Categorizador(panelCarga1, texto), "Analisador");
         iniciar.start();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonIniciarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         Start.ejecutar.irEditor(texto, archivo);
         if (iniciar.isAlive()) {
             iniciar.stop();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     public void setTexto(String texto) {
         this.texto = texto;
@@ -106,8 +106,8 @@ public class VentanaAnalisando extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonIniciar;
     private cunoc.practica_1_lfp_2021.view.sub_ventanas.PanelCarga panelCarga1;
     // End of variables declaration//GEN-END:variables
 }

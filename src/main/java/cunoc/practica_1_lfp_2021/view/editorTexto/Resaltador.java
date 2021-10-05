@@ -7,8 +7,6 @@ package cunoc.practica_1_lfp_2021.view.editorTexto;
 
 import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
 import java.awt.Color;
-import java.io.IOException;
-import java.nio.CharBuffer;
 import java.util.ArrayList;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
