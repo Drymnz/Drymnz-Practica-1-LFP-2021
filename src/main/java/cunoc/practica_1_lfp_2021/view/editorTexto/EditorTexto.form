@@ -28,11 +28,11 @@
                   <Group type="102" attributes="0">
                       <Component id="JButtonRegresar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButtonAguardarComo" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="528" max="32767" attributes="0"/>
+                      <Component id="jButtonGuardarComo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="541" max="32767" attributes="0"/>
                       <Component id="jButtonAnalisar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButtonAguardar" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonGuardar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonBuscar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -51,12 +51,12 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jTextFieldBuscador" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonAguardar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonAnalisar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="JButtonRegresar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonAguardarComo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonGuardarComo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -112,26 +112,26 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBuscarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonAguardar">
+    <Component class="javax.swing.JButton" name="jButtonGuardar">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ef" green="f9" red="fe" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Aguardar"/>
+        <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAguardarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGuardarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonAguardarComo">
+    <Component class="javax.swing.JButton" name="jButtonGuardarComo">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ef" green="f9" red="fe" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Aguardar como"/>
+        <Property name="text" type="java.lang.String" value="Guardar Como"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAguardarComoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGuardarComoActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonAnalisar">
