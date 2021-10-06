@@ -13,7 +13,7 @@ import cunoc.practica_1_lfp_2021.view.Ventana;
  */
 public class Start {
 
-    public static final Ventana ejecutar = new Ventana();
+    public static Ventana ejecutar = new Ventana();
 
     public static void main(String[] args) {
         ejecutar.setSize(338, 620);

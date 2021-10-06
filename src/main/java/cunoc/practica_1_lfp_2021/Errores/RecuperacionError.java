@@ -99,7 +99,7 @@ public class RecuperacionError {
     }
 
     private void indicarSimboloError(String simbolo) {
-        caracterDondeFallo += "< " + simbolo + ">";
+        caracterDondeFallo += " " + simbolo + " ";
     }
 
     private String indicarToken(ListadoToken token, String stringToken) {

@@ -44,6 +44,9 @@ public class ReportesLexemas extends javax.swing.JPanel implements Runnable {
         jScrollPaneListadoToken = new javax.swing.JScrollPane();
         jTableListadoToken = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(168, 210, 255));
+
+        jButton1.setBackground(new java.awt.Color(254, 228, 64));
         jButton1.setText("Menu Principal");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,7 +119,6 @@ public class ReportesLexemas extends javax.swing.JPanel implements Runnable {
     private javax.swing.JTable jTableRemen;
     // End of variables declaration//GEN-END:variables
     public void cargarTablas(ArrayList<Palabra> listadoLexema) {
-        System.out.println("ENTRO <cargarTablas>");
         this.listadoLexema = listadoLexema;
         modeloListadoToken = (DefaultTableModel) jTableListadoToken.getModel();
         modeloResumen = (DefaultTableModel) jTableRemen.getModel();
@@ -124,18 +126,15 @@ public class ReportesLexemas extends javax.swing.JPanel implements Runnable {
         refrescar(modeloListadoToken);
         cargarTitulos();
         cargarTabla();
-        System.out.println("SALIO <cargarTablas>");
     }
 
     public void refrescar(DefaultTableModel modelo) {
-        System.out.println("ENTRO <refrescar>");
         int filas = modelo.getRowCount();
         if (filas != 0) {
             for (int i = filas - 1; i >= 0; i--) {// limpieza de la tabla
                 modelo.removeRow(i);
             }
         }
-        System.out.println("SALIO <refrescar>");
     }
 
     // cargar el contenido a mostar en la tabla
@@ -144,9 +143,14 @@ public class ReportesLexemas extends javax.swing.JPanel implements Runnable {
         for (Palabra palabra : listadoLexema) {
             if (palabra != null) {
                 if ((palabra instanceof Lexema)) {
-                    Lexema ver = (Lexema) palabra;
-                    //{"nombre del token", "lexema", "posicionX","posicionY"};
-                    modeloListadoToken.addRow(new Object[]{ver.getTipoToken().getNombre(), (new ManejadorTexto()).convertirListadoCaracter(ver.getPalabra()), ver.getPosicionX(), ver.getPosicionY()});
+                    try {
+                        Lexema ver = (Lexema) palabra;
+                        //{"nombre del token", "lexema", "posicionX","posicionY"};
+                        modeloListadoToken.addRow(new Object[]{ver.getTipoToken().getNombre(), (new ManejadorTexto()).convertirListadoCaracter(ver.getPalabra()), ver.getPosicionX(), ver.getPosicionY()});
+                    } catch (IllegalThreadStateException e) {
+                        System.out.println("Error de conversion de palabra a Lexema");
+                        System.out.println(e.getMessage());
+                    }
                 }
             }
         }
@@ -170,10 +174,15 @@ public class ReportesLexemas extends javax.swing.JPanel implements Runnable {
             for (int i = 0; i < listadoLexema.size(); i++) {
                 if (listadoLexema.get(i) != null) {
                     if (listadoLexema.get(i) instanceof Lexema) {
-                        Lexema ver = (Lexema) listadoLexema.get(i);
-                        if (ver.getTipoToken().toString().equals(listadoToken1.getNombre())) {
-                            lexema += (new ManejadorTexto()).convertirListadoCaracter(ver.getPalabra()) + "\n";
-                            cantidadToken++;
+                        try {
+                            Lexema ver = (Lexema) listadoLexema.get(i);
+                            if (ver.getTipoToken().toString().equals(listadoToken1.getNombre())) {
+                                lexema += (new ManejadorTexto()).convertirListadoCaracter(ver.getPalabra()) + "\n";
+                                cantidadToken++;
+                            }
+                        } catch (IllegalThreadStateException e) {
+                            System.out.println("Error de conversion de palabra a Lexema");
+                            System.out.println(e.getMessage());
                         }
                     }
                 }

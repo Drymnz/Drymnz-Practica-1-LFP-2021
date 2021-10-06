@@ -80,8 +80,9 @@ public class Categorizador extends Thread {
             } else {
                 Start.ejecutar.irReportesToken(listadoPalbras);
             }
-        } catch (Exception e) {
+        } catch (IllegalThreadStateException e) {
             System.out.println(e.getMessage());
+            System.out.println(e.toString());
             System.out.println("Al ir reportes");
         }
 

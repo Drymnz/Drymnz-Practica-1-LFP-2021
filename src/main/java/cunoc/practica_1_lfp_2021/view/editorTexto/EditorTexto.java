@@ -40,6 +40,8 @@ public class EditorTexto extends javax.swing.JPanel {
         jButtonAguardarComo = new javax.swing.JButton();
         jButtonAnalisar = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(162, 210, 255));
+
         jTextFieldBuscador.setText("Buscar");
         jTextFieldBuscador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -47,6 +49,7 @@ public class EditorTexto extends javax.swing.JPanel {
             }
         });
 
+        JButtonRegresar.setBackground(new java.awt.Color(255, 134, 94));
         JButtonRegresar.setText("Regresar");
         JButtonRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -58,6 +61,7 @@ public class EditorTexto extends javax.swing.JPanel {
         jTextArea.setRows(5);
         jScrollPane2.setViewportView(jTextArea);
 
+        jButtonBuscar.setBackground(new java.awt.Color(254, 228, 64));
         jButtonBuscar.setText("buscar");
         jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,6 +69,7 @@ public class EditorTexto extends javax.swing.JPanel {
             }
         });
 
+        jButtonAguardar.setBackground(new java.awt.Color(254, 249, 239));
         jButtonAguardar.setText("Aguardar");
         jButtonAguardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,6 +77,7 @@ public class EditorTexto extends javax.swing.JPanel {
             }
         });
 
+        jButtonAguardarComo.setBackground(new java.awt.Color(254, 249, 239));
         jButtonAguardarComo.setText("Aguardar como");
         jButtonAguardarComo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,6 +85,7 @@ public class EditorTexto extends javax.swing.JPanel {
             }
         });
 
+        jButtonAnalisar.setBackground(new java.awt.Color(254, 228, 64));
         jButtonAnalisar.setText("Analisar");
         jButtonAnalisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

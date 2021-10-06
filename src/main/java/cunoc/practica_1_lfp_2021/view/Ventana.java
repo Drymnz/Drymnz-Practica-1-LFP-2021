@@ -65,10 +65,11 @@ public class Ventana extends JFrame {
     }
 
     public void irAnalisador(String texto, File archivo) {
+        analisador.getPanelCarga1().setProgreso(0);
         analisador.setArchivo(archivo);
         analisador.setTexto(texto);
         carpeta.show(JPanel_Venantan, "Analisador");
-        restarurarVentana(480, 360);
+        restarurarVentana(640, 220);
     }
 
     public void irReportesError(ArrayList<Palabra> listadoLexemao) {
@@ -85,7 +86,6 @@ public class Ventana extends JFrame {
 
     private void restarurarVentana(int ancho, int altura) {
         this.setSize(ancho, altura);
-        SwingUtilities.updateComponentTreeUI(this);
         this.repaint();
         this.setLocationRelativeTo(null);//que  se ubique en el centro
     }

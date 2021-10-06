@@ -37,6 +37,9 @@ public class ReportesError extends javax.swing.JPanel {
         jScrollPaneRecuperador = new javax.swing.JScrollPane();
         jTableRecuperacion = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(168, 210, 255));
+
+        jButton1.setBackground(new java.awt.Color(254, 228, 64));
         jButton1.setText("Menu Principal");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,7 +117,6 @@ public class ReportesError extends javax.swing.JPanel {
     private ArrayList<Palabra> listadoLexema;
 
     public void cargarTablas(ArrayList<Palabra> listadoLexema) {
-        System.out.println("ENTRO <cargarTablas>");
         this.listadoLexema = listadoLexema;
         modeloListado = (DefaultTableModel) jTableListadoErrores.getModel();
         modeloRecuperar = (DefaultTableModel) jTableRecuperacion.getModel();
@@ -122,43 +124,41 @@ public class ReportesError extends javax.swing.JPanel {
         refrescar(modeloListado);
         cargarTitulos();
         cargarTabla();
-        System.out.println("SALIO <cargarTablas>");
     }
 
     // limpiar la tabla
     public void refrescar(DefaultTableModel modelo) {
-        System.out.println("ENTRO <refrescar>");
         int filas = modelo.getRowCount();
         if (filas != 0) {
             for (int i = filas - 1; i >= 0; i--) {// limpieza de la tabla
                 modelo.removeRow(i);
             }
         }
-        System.out.println("SALIO <refrescar>");
     }
     // asignar titulos a las tablas
 
     private void cargarTitulos() {
-        System.out.println("ENTRO <cargarTitulos>");
         String[] reporteTokensResumido = {"Error recuperado"};
         String[] reporteErrores = {"simbolo o cadena de erro", "posicionX", "posicionY"};
         modeloListado.setColumnIdentifiers(reporteErrores);
         modeloRecuperar.setColumnIdentifiers(reporteTokensResumido);
-        System.out.println("SALIO <cargarTitulos>");
     }
 
     private void cargarTabla() {
-        System.out.println("ENTRO <cargarTabla>");
         for (Palabra palabra : listadoLexema) {
             if (palabra != null) {
-                if ((palabra instanceof ErrorLexema)) {
-                    ErrorLexema ver = (ErrorLexema) palabra;
-                    // {"simbolo o cadena de erro", "posicionY","posicionX"};
-                    modeloListado.addRow(new Object[]{ver.getCaracter(), ver.getPosicionX(), ver.getPosicionY()});
-                    modeloRecuperar.addRow(new Object[]{ver.getRecuperacionError()});
+                try {
+                    if ((palabra instanceof ErrorLexema)) {
+                        ErrorLexema ver = (ErrorLexema) palabra;
+                        // {"simbolo o cadena de erro", "posicionY","posicionX"};
+                        modeloListado.addRow(new Object[]{ver.getCaracter(), ver.getPosicionX(), ver.getPosicionY()});
+                        modeloRecuperar.addRow(new Object[]{ver.getRecuperacionError()});
+                    }
+                } catch (IllegalThreadStateException e) {
+                    System.out.println("Error de converitir palabra a ErrorLexema");
+                    System.out.println(e.getMessage());
                 }
             }
         }
-        System.out.println("SALIO <cargarTabla>");
     }
 }
