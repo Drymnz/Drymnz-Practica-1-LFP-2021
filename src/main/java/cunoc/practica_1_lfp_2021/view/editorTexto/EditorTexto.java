@@ -43,6 +43,11 @@ public class EditorTexto extends javax.swing.JPanel {
         setBackground(new java.awt.Color(162, 210, 255));
 
         jTextFieldBuscador.setText("Buscar");
+        jTextFieldBuscador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextFieldBuscadorMouseClicked(evt);
+            }
+        });
         jTextFieldBuscador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldBuscadorActionPerformed(evt);
@@ -158,6 +163,12 @@ public class EditorTexto extends javax.swing.JPanel {
     private void jButtonAnalisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnalisarActionPerformed
         Start.ejecutar.irAnalisador(jTextArea.getText(), archivo);
     }//GEN-LAST:event_jButtonAnalisarActionPerformed
+
+    private void jTextFieldBuscadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldBuscadorMouseClicked
+        if (jTextFieldBuscador.getText().equals("Buscar")) {
+            jTextFieldBuscador.setText("");
+        }
+    }//GEN-LAST:event_jTextFieldBuscadorMouseClicked
     private void aguardar() {
         String mensaje = "Fallo al aguardar";
         if (archivo == null) {

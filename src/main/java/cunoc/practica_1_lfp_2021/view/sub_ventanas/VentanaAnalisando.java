@@ -106,9 +106,15 @@ public class VentanaAnalisando extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "No hay nada que analisar, ingrese texto porfavor");
         } else {
             Start.ejecutar.irEditor(texto, archivo);
-            if (iniciar.isAlive()) {
-                iniciar.stop();
+            try {
+                if (iniciar.isAlive()) {
+                    iniciar.stop();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println("Error al detener el hilo del analisador");
             }
+
         }
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
