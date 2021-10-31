@@ -37,17 +37,21 @@ public class Categorizador extends Thread {
         ArrayList<String> analisar = (new ManejadorTexto()).dividirTextoLetras(texto);
         String palabra = "";
         for (String caracterAnalisar : analisar) {
-            if (!palabra.isEmpty() && (caracterAnalisar.equals("\n") || caracterAnalisar.equals(" "))) {
+            boolean terminoPalabra = (caracterAnalisar.equals("\n") || caracterAnalisar.equals(" "));
+            if (!palabra.isEmpty() && terminoPalabra) {
                 analisar(palabra);
                 palabra = "";
             } else {
                 palabra += caracterAnalisar;
             }
+            if (terminoPalabra) {
+                palabra = "";
+            }
             contador++;
             mostrarProgreso.setProgresoReferente(totalLetra, contador);
             contarFilaColumna(caracterAnalisar);
         }
-        if (!palabra.isEmpty()) {
+        if (!palabra.isEmpty() && !palabra.equals("\n") && !palabra.equals(" ")) {
             analisar(palabra);
         }
     }

@@ -61,7 +61,8 @@ public class VerificarToken {
         for (int i = 0; i < palabra.length; i++) {
             if ((i == 0) && (palabra[0].getAlfabeto().equals(ListadoAlfabetoAFD.LETRA.toString()))) {
                 contador++;
-            } else if ((i != 0) && ((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.LETRA.toString()))) | ((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))) {
+            } 
+            if ((i != 0) && ((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.LETRA.toString()))) || ((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))) {
                 contador++;
             }
         }
@@ -72,8 +73,8 @@ public class VerificarToken {
     public boolean esPatronDecimal(Caracter[] palabra) {
         for (int i = 0; i < (palabra.length - 1); i++) {
             if (((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())) && (palabra[i + 1].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))
-                    | ((palabra[i].getCaracter().equals(Puntuacion.POINT.getSimbolo())) && (palabra[i + 1].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))
-                    | ((palabra[i + 1].getCaracter().equals(Puntuacion.POINT.getSimbolo())) && (palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))) {
+                    || ((palabra[i].getCaracter().equals(Puntuacion.POINT.getSimbolo())) && (palabra[i + 1].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))
+                    || ((palabra[i + 1].getCaracter().equals(Puntuacion.POINT.getSimbolo())) && (palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))) {
                 contador++;
             }
         }

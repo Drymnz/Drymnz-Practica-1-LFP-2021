@@ -17,7 +17,7 @@ public class Start {
 
     public static void main(String[] args) {
         ejecutar.setSize(338, 620);
-        ejecutar.setResizable(false);// que no pueda modificar el tamaño el usuario
+        //ejecutar.setResizable(false);// que no pueda modificar el tamaño el usuario
         ejecutar.setVisible(true);
         ejecutar.setLocationRelativeTo(null);//que  se ubique en el centro
     }

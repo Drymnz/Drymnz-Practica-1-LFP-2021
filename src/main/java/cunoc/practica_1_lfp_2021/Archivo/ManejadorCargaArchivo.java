@@ -21,7 +21,7 @@ public class ManejadorCargaArchivo {
     private FileInputStream entrada;
 
     public String cargarArchivoTexto(File carchivo) {
-        String extraje = "null";
+        String extraje = "";
         try {
             entrada = new FileInputStream(carchivo);
             int valor;
