@@ -15,9 +15,11 @@ import java.util.logging.Logger;
 /**
  * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
-public class ManejadorEscrituraArchivo {
+public class ManejadorEscrituraArchivo implements Runnable {
 
     private FileOutputStream salida;
+    private File archivoHilo;
+    private String contenidoHilo;
 
     public boolean aguardarTexto(File archivo, String contenido) {
         try {
@@ -33,4 +35,18 @@ public class ManejadorEscrituraArchivo {
         }
         return false;
     }
+
+    @Override
+    public void run() {
+        aguardarTexto(archivoHilo, contenidoHilo);
+    }
+
+    public void setArchivoHilo(File archivoHilo) {
+        this.archivoHilo = archivoHilo;
+    }
+
+    public void setContenidoHilo(String contenidoHilo) {
+        this.contenidoHilo = contenidoHilo;
+    }
+
 }

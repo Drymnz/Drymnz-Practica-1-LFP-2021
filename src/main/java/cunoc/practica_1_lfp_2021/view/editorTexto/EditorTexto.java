@@ -7,6 +7,7 @@ package cunoc.practica_1_lfp_2021.view.editorTexto;
 
 import cunoc.practica_1_lfp_2021.Archivo.ManejadorEscrituraArchivo;
 import cunoc.practica_1_lfp_2021.Start;
+import cunoc.practica_1_lfp_2021.view.sub_ventanas.Retorno;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ public class EditorTexto extends javax.swing.JPanel {
      */
     public EditorTexto() {
         initComponents();
+        retorno1.registrar(jTextArea);
     }
 
     @SuppressWarnings("unchecked")
@@ -39,6 +41,7 @@ public class EditorTexto extends javax.swing.JPanel {
         jButtonGuardar = new javax.swing.JButton();
         jButtonGuardarComo = new javax.swing.JButton();
         jButtonAnalisar = new javax.swing.JButton();
+        retorno1 = new cunoc.practica_1_lfp_2021.view.sub_ventanas.Retorno();
 
         setBackground(new java.awt.Color(162, 210, 255));
 
@@ -110,7 +113,9 @@ public class EditorTexto extends javax.swing.JPanel {
                         .addComponent(JButtonRegresar)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonGuardarComo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 541, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(retorno1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 348, Short.MAX_VALUE)
                         .addComponent(jButtonAnalisar)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonGuardar)
@@ -123,18 +128,21 @@ public class EditorTexto extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButtonBuscar)
-                        .addComponent(jButtonGuardar)
-                        .addComponent(jButtonAnalisar))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(JButtonRegresar)
-                        .addComponent(jButtonGuardarComo)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTextFieldBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonBuscar)
+                                .addComponent(jButtonGuardar)
+                                .addComponent(jButtonAnalisar))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(JButtonRegresar)
+                                .addComponent(jButtonGuardarComo))))
+                    .addComponent(retorno1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -191,6 +199,7 @@ public class EditorTexto extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea;
     private javax.swing.JTextField jTextFieldBuscador;
+    private cunoc.practica_1_lfp_2021.view.sub_ventanas.Retorno retorno1;
     // End of variables declaration//GEN-END:variables
 // set y get 
     public JTextArea getjTextArea1() {
@@ -200,5 +209,10 @@ public class EditorTexto extends javax.swing.JPanel {
     public void setArchivo(File archivo) {
         this.archivo = archivo;
     }
+
+    public Retorno getRetorno1() {
+        return retorno1;
+    }
 // fin set y get 
+
 }

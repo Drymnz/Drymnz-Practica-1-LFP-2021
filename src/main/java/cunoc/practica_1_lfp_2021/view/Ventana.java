@@ -58,6 +58,7 @@ public class Ventana extends JFrame {
     }
 
     public void irEditor(String texto, File archivo) {
+        editor.getRetorno1().iniciarHistorial();
         editor.getjTextArea1().setText(texto);
         editor.setArchivo(archivo);
         carpeta.show(JPanel_Venantan, "Editor");

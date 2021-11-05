@@ -39,4 +39,18 @@ public class ManejadorCargaArchivo {
         }
         return extraje;
     }
+
+    public File exiteDireccion(File verificar) {
+        if (verificar.exists()) {
+            return verificar;
+        } else {
+            if (verificar.mkdirs()) {
+                System.out.println("FUE CREADO " + verificar.getName());
+                return verificar;
+            } else {
+                System.out.println("NO SE PUDO CREAR " + verificar.getName());
+            }
+        }
+        return null;
+    }
 }
