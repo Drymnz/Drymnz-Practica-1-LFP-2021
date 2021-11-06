@@ -21,7 +21,7 @@ public class Historial {
     private ManejadorEscrituraArchivo escribir = new ManejadorEscrituraArchivo();
     private ManejadorCargaArchivo leer = new ManejadorCargaArchivo();
     //estas son los detalles del archivo
-    private final String DIRECCION = "temp/historial";
+    private final String DIRECCION = ".temp/historial";
     private final String NOMBRE_ARCHIVO = "doc";
     private final String EXTENCION_ARCHIVO = ".txt";
 

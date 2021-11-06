@@ -6,6 +6,7 @@
 package cunoc.practica_1_lfp_2021;
 
 import cunoc.practica_1_lfp_2021.view.Ventana;
+import cunoc.practica_1_lfp_2021.view.sub_ventanas.Acerca;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Start {
 
     public static void main(String[] args) {
         ejecutar.setSize(338, 620);
+        ejecutar.setTitle(Acerca.NOMBRE_PROGRAMA);
         ejecutar.setVisible(true);
         ejecutar.setLocationRelativeTo(null);//que  se ubique en el centro
     }

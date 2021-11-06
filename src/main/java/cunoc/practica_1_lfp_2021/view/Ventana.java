@@ -5,10 +5,12 @@
  */
 package cunoc.practica_1_lfp_2021.view;
 
+import cunoc.practica_1_lfp_2021.Start;
 import cunoc.practica_1_lfp_2021.Toke.Palabra;
 import cunoc.practica_1_lfp_2021.view.Reportes.ReportesError;
 import cunoc.practica_1_lfp_2021.view.Reportes.ReportesLexemas;
 import cunoc.practica_1_lfp_2021.view.editorTexto.EditorTexto;
+import cunoc.practica_1_lfp_2021.view.sub_ventanas.Acerca;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.MenuPrincipal;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.VentanaAnalisando;
 import java.awt.CardLayout;
@@ -16,7 +18,6 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
@@ -54,7 +55,7 @@ public class Ventana extends JFrame {
     // cambio de menus, realizara los cambios de tamaño de la ventana y del JPanel que son los sub menos
     public void irMenuPrincipal() {
         carpeta.show(JPanel_Venantan, "MenuPrincipal");
-        restarurarVentana(338, 620);
+        restarurarVentana(338, 620, Acerca.NOMBRE_PROGRAMA);
     }
 
     public void irEditor(String texto, File archivo) {
@@ -62,7 +63,8 @@ public class Ventana extends JFrame {
         editor.getjTextArea1().setText(texto);
         editor.setArchivo(archivo);
         carpeta.show(JPanel_Venantan, "Editor");
-        restarurarVentana(1280, 620);
+        String titulo = ((archivo != null)) ? ("Editor --> " + archivo.getName()) : "Editor";
+        restarurarVentana(1280, 620, titulo);
     }
 
     public void irAnalisador(String texto, File archivo) {
@@ -70,22 +72,23 @@ public class Ventana extends JFrame {
         analisador.setArchivo(archivo);
         analisador.setTexto(texto);
         carpeta.show(JPanel_Venantan, "Analisador");
-        restarurarVentana(640, 220);
+        restarurarVentana(640, 220, "Analisador");
     }
 
     public void irReportesError(ArrayList<Palabra> listadoLexemao) {
         erroresLexema.cargarTablas(listadoLexemao);
         carpeta.show(JPanel_Venantan, "ReportesError");
-        restarurarVentana(1280, 640);
+        restarurarVentana(1280, 640, "Reprotes Error");
     }
 
     public void irReportesToken(ArrayList<Palabra> listadoLexemao) {
         reportesLexema.cargarTablas(listadoLexemao);
         carpeta.show(JPanel_Venantan, "ReportesLexemas");
-        restarurarVentana(1280, 640);
+        restarurarVentana(1280, 640, "Reprotes token");
     }
 
-    private void restarurarVentana(int ancho, int altura) {
+    private void restarurarVentana(int ancho, int altura, String titulo) {
+        Start.ejecutar.setTitle(titulo);
         this.setSize(ancho, altura);
         this.repaint();
         this.setLocationRelativeTo(null);//que  se ubique en el centro

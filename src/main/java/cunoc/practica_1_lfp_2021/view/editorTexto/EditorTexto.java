@@ -7,9 +7,11 @@ package cunoc.practica_1_lfp_2021.view.editorTexto;
 
 import cunoc.practica_1_lfp_2021.Archivo.ManejadorEscrituraArchivo;
 import cunoc.practica_1_lfp_2021.Start;
+import cunoc.practica_1_lfp_2021.view.sub_ventanas.Acerca;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.Retorno;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -20,6 +22,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class EditorTexto extends javax.swing.JPanel {
 
     private File archivo = null;
+    private JFrame ventana = new JFrame();
+    private Acerca detalles = new Acerca();
 
     /**
      * Creates new form EditorTexto
@@ -27,6 +31,14 @@ public class EditorTexto extends javax.swing.JPanel {
     public EditorTexto() {
         initComponents();
         retorno1.registrar(jTextArea);
+        cargarDetallaVentanaAcerca();
+    }
+
+    private void cargarDetallaVentanaAcerca() {
+        ventana.setTitle("Acerca");
+        detalles.setSize(525, 147);
+        ventana.setSize(525, 147);
+        ventana.add(detalles);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,6 +54,7 @@ public class EditorTexto extends javax.swing.JPanel {
         jButtonGuardarComo = new javax.swing.JButton();
         jButtonAnalisar = new javax.swing.JButton();
         retorno1 = new cunoc.practica_1_lfp_2021.view.sub_ventanas.Retorno();
+        jButtonAcerca = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(162, 210, 255));
 
@@ -101,6 +114,13 @@ public class EditorTexto extends javax.swing.JPanel {
             }
         });
 
+        jButtonAcerca.setText("Acerca");
+        jButtonAcerca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAcercaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,7 +135,9 @@ public class EditorTexto extends javax.swing.JPanel {
                         .addComponent(jButtonGuardarComo)
                         .addGap(18, 18, 18)
                         .addComponent(retorno1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 348, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonAcerca)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
                         .addComponent(jButtonAnalisar)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonGuardar)
@@ -136,7 +158,8 @@ public class EditorTexto extends javax.swing.JPanel {
                                 .addComponent(jTextFieldBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jButtonBuscar)
                                 .addComponent(jButtonGuardar)
-                                .addComponent(jButtonAnalisar))
+                                .addComponent(jButtonAnalisar)
+                                .addComponent(jButtonAcerca))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(JButtonRegresar)
                                 .addComponent(jButtonGuardarComo))))
@@ -177,6 +200,13 @@ public class EditorTexto extends javax.swing.JPanel {
             jTextFieldBuscador.setText("");
         }
     }//GEN-LAST:event_jTextFieldBuscadorMouseClicked
+
+    private void jButtonAcercaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAcercaActionPerformed
+        if (!ventana.isVisible()) {
+            ventana.setLocationRelativeTo(null);
+            ventana.setVisible(true);
+        }
+    }//GEN-LAST:event_jButtonAcercaActionPerformed
     private void aguardar() {
         String mensaje = "Fallo al aguardar";
         if (archivo == null) {
@@ -192,6 +222,7 @@ public class EditorTexto extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JButtonRegresar;
+    private javax.swing.JButton jButtonAcerca;
     private javax.swing.JButton jButtonAnalisar;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonGuardar;

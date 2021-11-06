@@ -31,7 +31,9 @@
                       <Component id="jButtonGuardarComo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="retorno1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="348" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButtonAcerca" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="276" max="32767" attributes="0"/>
                       <Component id="jButtonAnalisar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButtonGuardar" min="-2" max="-2" attributes="0"/>
@@ -57,6 +59,7 @@
                               <Component id="jButtonBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButtonAnalisar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonAcerca" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="JButtonRegresar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -154,6 +157,14 @@
       </Events>
     </Component>
     <Component class="cunoc.practica_1_lfp_2021.view.sub_ventanas.Retorno" name="retorno1">
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonAcerca">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Acerca"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAcercaActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

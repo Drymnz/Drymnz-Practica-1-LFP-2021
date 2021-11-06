@@ -1,2 +1,6 @@
 /target/
 /src/main/java/cunoc/practica_1_lfp_2021/pruevas/
+/temp/
+/.temp/
+/src/main/java/cunoc/practica_1_lfp_2021/view/verprueva.form
+/src/main/java/cunoc/practica_1_lfp_2021/view/verprueva.java
