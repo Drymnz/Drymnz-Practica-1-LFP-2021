@@ -10,10 +10,12 @@ import cunoc.practica_1_lfp_2021.Toke.Palabra;
 import cunoc.practica_1_lfp_2021.view.Reportes.ReportesError;
 import cunoc.practica_1_lfp_2021.view.Reportes.ReportesLexemas;
 import cunoc.practica_1_lfp_2021.view.editorTexto.EditorTexto;
-import cunoc.practica_1_lfp_2021.view.sub_ventanas.Acerca;
+import cunoc.practica_1_lfp_2021.view.editorTexto.Piezas.Acerca;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.MenuPrincipal;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.VentanaAnalisando;
+import cunoc.practica_1_lfp_2021.view.editorTexto.Piezas.Posicion;
 import java.awt.CardLayout;
+import java.awt.Graphics;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -90,7 +92,6 @@ public class Ventana extends JFrame {
     private void restarurarVentana(int ancho, int altura, String titulo) {
         Start.ejecutar.setTitle(titulo);
         this.setSize(ancho, altura);
-        this.repaint();
         this.setLocationRelativeTo(null);//que  se ubique en el centro
     }
     // fin cambio de menus

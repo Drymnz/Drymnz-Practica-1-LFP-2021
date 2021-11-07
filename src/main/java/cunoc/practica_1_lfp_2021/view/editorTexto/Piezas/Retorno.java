@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package cunoc.practica_1_lfp_2021.view.sub_ventanas;
+package cunoc.practica_1_lfp_2021.view.editorTexto.Piezas;
 
 import cunoc.practica_1_lfp_2021.FucionalidadExtrarEditor.Historial;
 import java.awt.event.KeyAdapter;

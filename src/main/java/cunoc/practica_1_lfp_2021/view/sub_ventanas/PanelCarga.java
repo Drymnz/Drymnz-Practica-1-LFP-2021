@@ -35,7 +35,6 @@ public class PanelCarga extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g); //To change body of generated methods, choose Tools | Templates.
-        repaint();
     }
 
     @Override

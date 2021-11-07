@@ -6,7 +6,8 @@
 package cunoc.practica_1_lfp_2021;
 
 import cunoc.practica_1_lfp_2021.view.Ventana;
-import cunoc.practica_1_lfp_2021.view.sub_ventanas.Acerca;
+import cunoc.practica_1_lfp_2021.view.editorTexto.Piezas.Acerca;
+import java.awt.Graphics;
 
 /**
  *
@@ -14,7 +15,13 @@ import cunoc.practica_1_lfp_2021.view.sub_ventanas.Acerca;
  */
 public class Start {
 
-    public static Ventana ejecutar = new Ventana();
+    public static Ventana ejecutar = new Ventana(){
+        @Override
+        public void paint(Graphics g) {
+            super.paint(g); //To change body of generated methods, choose Tools | Templates.
+            repaint();
+        }
+    };
 
     public static void main(String[] args) {
         ejecutar.setSize(338, 620);
