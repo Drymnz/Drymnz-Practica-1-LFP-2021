@@ -10,12 +10,15 @@ package cunoc.practica_1_lfp_2021.Toke;
  * @author Benjamín de Jesús Pérez <@Drymnz>
  */
 public enum ListadoToken {
-    AGRUPACION("AGRUPACION"),
+    PALABRA_CLAVE("PALABRA_CLAVE"),
     NUMERO("NUMERO"),
-    PUNTUACION("PUNTUACION"),
+    AGRUPACION("AGRUPACION"),
     OPERADOR("OPERADOR"),
-    IDENTIFICADOR("IDENTIFICADOR"),
-    DECIMAL("DECIMAL");
+    PUNTUACION("PUNTUACION"),
+    LIETERAL("LIETERAL"),
+    COMENTARIO("COMENTARIO"),
+    CARACTER_ESPECIAL("CARACTER_ESPECIAL"),
+    IDENTIFICADOR("IDENTIFICADOR");
     private String nombre;
 
     private ListadoToken(String nombre) {

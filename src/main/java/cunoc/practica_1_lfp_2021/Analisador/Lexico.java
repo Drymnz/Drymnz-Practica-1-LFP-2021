@@ -11,18 +11,20 @@ import cunoc.practica_1_lfp_2021.Start;
 import cunoc.practica_1_lfp_2021.Toke.Palabra;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.PanelCarga;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
 public class Lexico extends Thread {
 
-    private PanelCarga mostrarProgreso;
-    private String texto;
-    private boolean errorLexema;
-    private int posicionY = 1;
-    private int posicionX = 0;
-    private ArrayList<Palabra> listadoPalbras = new ArrayList<>();
+    protected PanelCarga mostrarProgreso;
+    protected String texto;
+    protected boolean errorLexema;
+    protected int posicionY = 1;
+    protected int posicionX = 0;
+    protected ArrayList<Palabra> listadoPalbras = new ArrayList<>();
 
     public Lexico(PanelCarga mostrarProgreso, String texto) {
         this.mostrarProgreso = mostrarProgreso;
@@ -37,8 +39,14 @@ public class Lexico extends Thread {
         ArrayList<String> analisar = (new ManejadorTexto()).dividirTextoLetras(texto);
         String palabra = "";
         for (String caracterAnalisar : analisar) {
-            boolean terminoPalabra = (caracterAnalisar.equals("\n") || caracterAnalisar.equals(" "));
-            if (!palabra.isEmpty() && terminoPalabra) {
+            boolean terminoPalabra = ((new VerificadorAlfabeto()).caracterEspecial(caracterAnalisar)
+                    || comentarioLiteral(palabra, caracterAnalisar));
+            boolean parentesi = (new VerificadorAlfabeto()).agrupacion(caracterAnalisar) || (new VerificadorAlfabeto()).puntuacion(caracterAnalisar)
+                    || (new VerificadorAlfabeto()).caracterEspecial(caracterAnalisar);
+            if (parentesi) {
+                analisar(caracterAnalisar);
+                palabra += caracterAnalisar;
+            } else if (!palabra.isEmpty() && terminoPalabra) {
                 analisar(palabra);
                 palabra = "";
             } else {
@@ -54,6 +62,40 @@ public class Lexico extends Thread {
         if (!palabra.isEmpty() && !palabra.equals("\n") && !palabra.equals(" ")) {
             analisar(palabra);
         }
+    }
+
+    protected boolean comentarioLiteral(String palabra, String caracterAnalisar) {
+        boolean seretorna = false;
+        seretorna = ((caracterAnalisar.equals("\"") || caracterAnalisar.equals("/")) && palabra.isEmpty());
+        if (seretorna) {
+            return false;
+        }
+        if (!seretorna) {
+            ArrayList<String> analisar = (new ManejadorTexto()).dividirTextoLetras(palabra);
+            seretorna = (analisar.size() > 2)
+                    && analisar.get(0).equals("/")
+                    && analisar.get(1).equals("/")
+                    && analisar.get((analisar.size() - 1)).equals("\n");
+        }
+        if (!seretorna) {
+            ArrayList<String> analisar = (new ManejadorTexto()).dividirTextoLetras(palabra);
+            seretorna = (analisar.size() > 2)
+                    && analisar.get(0).equals("\"")
+                    && analisar.get((analisar.size() - 1)).equals("\"");
+        }
+        if (!seretorna) {
+            seretorna = caracterAnalisar.equals(" ");
+            if (seretorna) {
+                VerificadorPatronToken cumpleUnPatron = new VerificadorPatronToken(palabra, (posicionX - palabra.length()) + 1, posicionY);
+                Palabra verificar = cumpleUnPatron.analisarPatron();
+                if (verificar == null) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        return seretorna;
     }
 
     // analisara si la palabra cumple un patron
@@ -88,6 +130,7 @@ public class Lexico extends Thread {
             System.out.println(e.getMessage());
             System.out.println(e.toString());
             System.out.println("Al ir reportes");
+
         }
 
     }
@@ -99,6 +142,8 @@ public class Lexico extends Thread {
             sleep(10);
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
+            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.fillInStackTrace().toString());
             System.out.println("Local --->" + e.toString());
         }
         irReportes();

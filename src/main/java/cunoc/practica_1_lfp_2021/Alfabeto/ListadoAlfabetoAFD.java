@@ -10,9 +10,10 @@ package cunoc.practica_1_lfp_2021.Alfabeto;
  */
 public enum ListadoAlfabetoAFD {
     AGRUPACION,
+    CARACTER_ESPECIAL,
     LETRA,
     NUMERO,
     OPERACION,
-    CARACTER_ESPECIAL,
+    PALABRA_RESERVADA,
     PUNTUACION;
 }

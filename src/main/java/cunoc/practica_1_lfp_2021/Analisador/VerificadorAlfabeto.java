@@ -6,7 +6,7 @@ import cunoc.practica_1_lfp_2021.Alfabeto.*;
  * @author Benjamín de Jesús Pérez <@Drymnz>
  */
 public class VerificadorAlfabeto {
-    
+
 
     /*
     NOTA: esta clase solo pertence a verificar los caracter de un listado enum, para su pertencia de alfabeto
@@ -40,22 +40,44 @@ public class VerificadorAlfabeto {
         }
         return false;
     }
-    public boolean operacion(String caracter){
+
+    public boolean operacion(String caracter) {
         Operaciones[] alfabeto = Operaciones.values();
-         for (Operaciones operaciones : alfabeto) {
-                if (operaciones.getSimbolo().equals(caracter)) {
-                    return true;
-                }
+        for (Operaciones operaciones : alfabeto) {
+            if (operaciones.getSimbolo().equals(caracter)) {
+                return true;
             }
+        }
         return false;
     }
-    public boolean puntuacion(String caracter){
+
+    public boolean puntuacion(String caracter) {
         Puntuacion[] alfabeto = Puntuacion.values();
-          for (Puntuacion puntuacion : alfabeto) {
-                if (puntuacion.getSimbolo().equals(caracter)) {
-                   return true;
-                }
+        for (Puntuacion puntuacion : alfabeto) {
+            if (puntuacion.getSimbolo().equals(caracter)) {
+                return true;
             }
+        }
+        return false;
+    }
+
+    public boolean caracterEspecial(String caracter) {
+        CaracterEspecial[] alfabeto = CaracterEspecial.values();
+        for (CaracterEspecial puntuacion : alfabeto) {
+            if (puntuacion.getSimbolo().equals(caracter)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean caracterPalabraReservada(String caracter) {
+        ListadoPalabraClave[] alfabeto = ListadoPalabraClave.values();
+        for (ListadoPalabraClave puntuacion : alfabeto) {
+            if (puntuacion.getSimbolo().equals(caracter)) {
+                return true;
+            }
+        }
         return false;
     }
 }

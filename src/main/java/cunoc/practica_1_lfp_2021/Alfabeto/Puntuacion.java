@@ -14,7 +14,6 @@ public enum Puntuacion {
     COMMAT(","),
     DIAGONAL("/"),
     SIMGLE_QUOTE("'"),
-    DOUBLE_QUOTE("\""),
     GILLON("-"),
     GILLON_LESS("_"),
     POINT(".");

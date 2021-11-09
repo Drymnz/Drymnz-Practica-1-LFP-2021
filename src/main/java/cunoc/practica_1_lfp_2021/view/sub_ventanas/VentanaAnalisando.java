@@ -8,6 +8,7 @@ package cunoc.practica_1_lfp_2021.view.sub_ventanas;
 import cunoc.practica_1_lfp_2021.Analisador.Lexico;
 import cunoc.practica_1_lfp_2021.Start;
 import java.io.File;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 
 /**
@@ -97,7 +98,8 @@ public class VentanaAnalisando extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIniciarActionPerformed
-        iniciar = new Thread(new Lexico(panelCarga1, texto), "Analisador");
+        iniciar = null;
+        iniciar = new Thread(new Lexico(panelCarga1, texto), "Analisador" + LocalDate.now().toString());
         iniciar.start();
     }//GEN-LAST:event_jButtonIniciarActionPerformed
 

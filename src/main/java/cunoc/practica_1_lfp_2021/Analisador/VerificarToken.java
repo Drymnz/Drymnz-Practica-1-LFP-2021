@@ -5,9 +5,7 @@
  */
 package cunoc.practica_1_lfp_2021.Analisador;
 
-import cunoc.practica_1_lfp_2021.Alfabeto.ListadoAlfabetoAFD;
-import cunoc.practica_1_lfp_2021.Alfabeto.Numero;
-import cunoc.practica_1_lfp_2021.Alfabeto.Puntuacion;
+import cunoc.practica_1_lfp_2021.Alfabeto.*;
 import cunoc.practica_1_lfp_2021.Toke.Caracter;
 
 /**
@@ -21,13 +19,12 @@ public class VerificarToken {
     public boolean numeroEntero(Caracter[] palabra) {
         boolean ver = true;
         if (palabra.length > 1) {
-            ver = !(palabra[0].getCaracter().equals(Numero.CERO)) && (palabra[1].getCaracter().equals(Numero.CERO));
+
+            ver = !(palabra[0].getCaracter().equals(Numero.CERO.toString()) && palabra[1].getCaracter().equals(Numero.CERO.toString()));
         }
         for (int i = 0; i < palabra.length; i++) {
             if (ver) {
-                if (palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())
-                        || (i == 0 && palabra[0].getCaracter().equals(Puntuacion.GILLON.getSimbolo()))
-                        ) {
+                if (palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())) {
                     contador++;
                 }
             }
@@ -58,7 +55,7 @@ public class VerificarToken {
                 contador++;
             }
         }
-        return contador == 1;
+        return contador == palabra.length;
     }
 
     // token si todos son operacion +++
@@ -68,7 +65,7 @@ public class VerificarToken {
                 contador++;
             }
         }
-        return contador == 1;
+        return contador == palabra.length;
     }
 
     // token si todos son puntuacion ....
@@ -78,20 +75,31 @@ public class VerificarToken {
                 contador++;
             }
         }
-        return contador == 1;
+        return contador == palabra.length;
     }
 
     // token literal "fdshoiasdfhfoihsdofai"
     public boolean literal(Caracter[] palabra) {
+        ListadoAlfabetoAFD[] listadoAlfabeto = ListadoAlfabetoAFD.values();
         if (palabra.length > 1) {
-            boolean ver = (palabra[0].getCaracter().equals(Puntuacion.DOUBLE_QUOTE.getSimbolo()))
-                    && (palabra[(palabra.length - 1)].getCaracter().equals(Puntuacion.DOUBLE_QUOTE.getSimbolo()));
-            for (int i = 1; i < (palabra.length - 1); i++) {
-                if (palabra[i].getAlfabeto().length() > 1) {
-                    contador++;
+            boolean ver = (palabra[0].getCaracter().equals("\""))
+                    && (palabra[(palabra.length - 1)].getCaracter().equals("\""));
+            if (ver) {
+                for (Caracter palabraSigle : palabra) {
+                    if (palabraSigle.getCaracter().equals(" ")) {
+                        contador++;
+                    } else {
+                        for (ListadoAlfabetoAFD cualalfa : listadoAlfabeto) {
+                            if ((palabraSigle.getAlfabeto().equals(cualalfa.toString()))) {
+                                contador++;
+                            }
+                        }
+                    }
                 }
+            } else {
+                return false;
             }
-            return contador == 1;
+            return contador == (palabra.length - 2);
         } else {
             return false;
         }
@@ -99,15 +107,26 @@ public class VerificarToken {
 
     // token comentario //comentario con el afabeto
     public boolean comentario(Caracter[] palabra) {
+        ListadoAlfabetoAFD[] listadoAlfabeto = ListadoAlfabetoAFD.values();
         if (palabra.length > 1) {
             boolean ver = (palabra[0].getCaracter().equals(Puntuacion.DIAGONAL.getSimbolo()))
                     && (palabra[1].getCaracter().equals(Puntuacion.DIAGONAL.getSimbolo()));
-            for (int i = 2; i < (palabra.length); i++) {
-                if (palabra[i].getAlfabeto().length() > 1) {
-                    contador++;
+            if (ver) {
+                for (Caracter palabraSigle : palabra) {
+                    if (palabraSigle.getCaracter().equals(" ")) {
+                        contador++;
+                    } else {
+                        for (ListadoAlfabetoAFD cualalfa : listadoAlfabeto) {
+                            if ((palabraSigle.getAlfabeto().equals(cualalfa.toString()))) {
+                                contador++;
+                            }
+                        }
+                    }
                 }
+                return contador == palabra.length;
+            } else {
+                return false;
             }
-            return contador == 1;
         } else {
             return false;
         }
@@ -123,17 +142,17 @@ public class VerificarToken {
         return contador == 1;
     }
 
-// verificar si es un patron de decimal
-    public boolean esPatronDecimal(Caracter[] palabra) {
-        for (int i = 0; i < (palabra.length - 1); i++) {
-            if (((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())) && (palabra[i + 1].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))
-                    || ((palabra[i].getCaracter().equals(Puntuacion.POINT.getSimbolo())) && (palabra[i + 1].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))
-                    || ((palabra[i + 1].getCaracter().equals(Puntuacion.POINT.getSimbolo())) && (palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))) {
-                contador++;
-            }
+    // token palabras clave
+    public boolean palabrasReservadas(Caracter[] palabra) {
+        ListadoPalabraClave[] listadopalabras = ListadoPalabraClave.values();
+        String palabraString = "";
+        for (Caracter caracter : palabra) {
+            palabraString += caracter.getCaracter();
         }
-        if (palabra[palabra.length - 1].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())) {
-            contador++;
+        for (ListadoPalabraClave listadopalabra : listadopalabras) {
+            if (palabraString.equals(listadopalabra.getSimbolo())) {
+                return true;
+            }
         }
         return contador == palabra.length;
     }

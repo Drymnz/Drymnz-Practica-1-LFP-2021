@@ -15,6 +15,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ReportesError extends javax.swing.JPanel {
 
+    private DefaultTableModel modeloListado;
+    private DefaultTableModel modeloRecuperar;
+    private ArrayList<Palabra> listadoLexema;
+
     /**
      * Creates new form ReportesError
      */
@@ -101,6 +105,9 @@ public class ReportesError extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        modeloListado = null;
+        modeloRecuperar = null;
+        listadoLexema = null;
         Start.ejecutar.irMenuPrincipal();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -112,9 +119,6 @@ public class ReportesError extends javax.swing.JPanel {
     private javax.swing.JTable jTableListadoErrores;
     private javax.swing.JTable jTableRecuperacion;
     // End of variables declaration//GEN-END:variables
-  private DefaultTableModel modeloListado;
-    private DefaultTableModel modeloRecuperar;
-    private ArrayList<Palabra> listadoLexema;
 
     public void cargarTablas(ArrayList<Palabra> listadoLexema) {
         this.listadoLexema = listadoLexema;

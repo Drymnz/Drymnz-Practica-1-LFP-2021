@@ -108,6 +108,10 @@ public class ReportesLexemas extends javax.swing.JPanel implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ejecutar = new Thread(this);
+        modeloListadoToken = null;
+        modeloResumen = null;
+        listadoLexema = null;
         Start.ejecutar.irMenuPrincipal();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -139,6 +143,9 @@ public class ReportesLexemas extends javax.swing.JPanel implements Runnable {
 
     // cargar el contenido a mostar en la tabla
     private void cargarTabla() {
+        if (ejecutar.isDaemon() || ejecutar.isAlive()) {
+            ejecutar.stop();
+        }
         ejecutar.start();
         for (Palabra palabra : listadoLexema) {
             if (palabra != null) {

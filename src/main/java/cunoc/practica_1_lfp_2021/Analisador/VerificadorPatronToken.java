@@ -68,6 +68,10 @@ public class VerificadorPatronToken {
                 return verificacionAlfabeto.numero(string);
             case LETRA:
                 return verificacionAlfabeto.letra(string);
+            case CARACTER_ESPECIAL:
+                return verificacionAlfabeto.caracterEspecial(string);
+            case PALABRA_RESERVADA:
+                return verificacionAlfabeto.caracterPalabraReservada(string);
             default:
                 return false;
         }
@@ -107,8 +111,14 @@ public class VerificadorPatronToken {
                 return verificacionToken.puntuacion(palabra);
             case IDENTIFICADOR:
                 return verificacionToken.esPatronIdentificador(palabra);
-            case DECIMAL:
-                return verificacionToken.esPatronDecimal(palabra);
+            case CARACTER_ESPECIAL:
+                return verificacionToken.caracterEspecial(palabra);
+            case COMENTARIO:
+                return verificacionToken.comentario(palabra);
+            case LIETERAL:
+                return verificacionToken.literal(palabra);
+            case PALABRA_CLAVE:
+                return verificacionToken.palabrasReservadas(palabra);
             default:
                 return false;
         }

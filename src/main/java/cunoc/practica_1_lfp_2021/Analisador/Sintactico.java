@@ -4,7 +4,10 @@
  */
 package cunoc.practica_1_lfp_2021.Analisador;
 
+import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
+import cunoc.practica_1_lfp_2021.Toke.Caracter;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.PanelCarga;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,7 +21,23 @@ public class Sintactico extends Lexico {
 
     @Override
     protected void categorizar() {
-        super.categorizar(); //To change body of generated methods, choose Tools | Templates.
+        int totalLetra = texto.length();
+        int contador = 0;
+        mostrarProgreso.setProgreso(contador);
+        ArrayList<String> analisar = (new ManejadorTexto()).dividirTextoLetras(texto);
+        String palabraAntes = "";
+        String palabra = "";
+        boolean esperar = true;
+        for (String string : analisar) {
+        
+            palabraAntes = palabra;
+            contador++;
+            mostrarProgreso.setProgresoReferente(totalLetra, contador);
+            contarFilaColumna(string);
+        }
+        if (!palabra.isEmpty() && !palabra.equals("\n") && !palabra.equals(" ")) {
+            analisar(palabra);
+        }
     }
 
     @Override
