@@ -17,6 +17,40 @@ public class VerificarToken {
 
     private int contador = 0;
 
+    // token si todos son numero 156165 -1859
+    public boolean numeroEntero(Caracter[] palabra) {
+        boolean ver = true;
+        if (palabra.length > 1) {
+            ver = !(palabra[0].getCaracter().equals(Numero.CERO)) && (palabra[1].getCaracter().equals(Numero.CERO));
+        }
+        for (int i = 0; i < palabra.length; i++) {
+            if (ver) {
+                if (palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())
+                        || (i == 0 && palabra[0].getCaracter().equals(Puntuacion.GILLON.getSimbolo()))
+                        ) {
+                    contador++;
+                }
+            }
+        }
+        return contador == palabra.length;
+    }
+
+    // verificar si es un patron de identificador
+    public boolean esPatronIdentificador(Caracter[] palabra) {
+        for (int i = 0; i < palabra.length; i++) {
+            if ((i == 0) && ((palabra[0].getAlfabeto().equals(ListadoAlfabetoAFD.LETRA.toString()))
+                    || ((palabra[0].getCaracter().equals(Puntuacion.GILLON_LESS.getSimbolo()))))) {
+                contador++;
+            }
+            if ((i != 0) && ((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.LETRA.toString())) || palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())
+                    || palabra[i].getCaracter().equals(Puntuacion.GILLON_LESS.getSimbolo())
+                    || palabra[i].getCaracter().equals(Puntuacion.GILLON.getSimbolo()))) {
+                contador++;
+            }
+        }
+        return contador == palabra.length;
+    }
+
     // token si todos son agrupacion ((((
     public boolean agrupacion(Caracter[] palabra) {
         for (Caracter caracter : palabra) {
@@ -25,20 +59,6 @@ public class VerificarToken {
             }
         }
         return contador == 1;
-    }
-
-    // token si todos son numero 156165
-    public boolean numeroEntero(Caracter[] palabra) {
-        boolean ver = true;
-        if (palabra.length > 1) {
-            ver = !(palabra[0].getCaracter().equals(Numero.CERO)) && (palabra[1].getCaracter().equals(Numero.CERO));
-        }
-        for (int i = 0; i < palabra.length; i++) {
-            if (ver && palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())) {
-                contador++;
-            }
-        }
-        return contador == palabra.length;
     }
 
     // token si todos son operacion +++
@@ -103,21 +123,7 @@ public class VerificarToken {
         return contador == 1;
     }
 
-    // verificar si es un patron de identificador
-    public boolean esPatronIdentificador(Caracter[] palabra) {
-        for (int i = 0; i < palabra.length; i++) {
-            if ((i == 0) && ((palabra[0].getAlfabeto().equals(ListadoAlfabetoAFD.LETRA.toString()))
-                    || ((palabra[0].getCaracter().equals(Puntuacion.GILLON_LESS.getSimbolo()))))) {
-                contador++;
-            }
-            if ((i != 0) && ((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.LETRA.toString()))) || ((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))) {
-                contador++;
-            }
-        }
-        return contador == palabra.length;
-    }
 // verificar si es un patron de decimal
-
     public boolean esPatronDecimal(Caracter[] palabra) {
         for (int i = 0; i < (palabra.length - 1); i++) {
             if (((palabra[i].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())) && (palabra[i + 1].getAlfabeto().equals(ListadoAlfabetoAFD.NUMERO.toString())))
