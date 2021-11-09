@@ -35,9 +35,12 @@ public class Posicion extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponents(g); //To change body of generated methods, choose Tools | Templates.
         try {
-            g.drawString("Total Lineas : " + ver.getLineCount(), 0, multiplicador(1));// menciona cuantas lineas tiene el documento
-            g.drawString("Total Caracter :" + maximo(ver.getText().length()), 155, multiplicador(1));// este es la cantida de caracters escritos
-            g.drawString(posicion(), 350, multiplicador(1));// este es la cantida de caracters escritos 
+            if (ver != null) {
+                Thread.sleep(3);
+                g.drawString("Total Lineas : " + ver.getLineCount(), 0, multiplicador(1));// menciona cuantas lineas tiene el documento
+                g.drawString("Total Caracter :" + maximo(ver.getText().length()), 155, multiplicador(1));// este es la cantida de caracters escritos
+                g.drawString(posicion(), 350, multiplicador(1));// este es la cantida de caracters escritos 
+            }
         } catch (Exception e) {
         }
     }
@@ -46,10 +49,12 @@ public class Posicion extends JPanel {
         int linea = 1;
         int columna = 1;
         try {
-            Thread.sleep(2);
-            int posicion = ver.getCaretPosition();
-            linea = ver.getLineOfOffset(posicion);
-            columna = posicion - ver.getLineStartOffset(linea);
+            if (ver != null) {
+                Thread.sleep(3);
+                int posicion = ver.getCaretPosition();
+                linea = ver.getLineOfOffset(posicion);
+                columna = posicion - ver.getLineStartOffset(linea);
+            }
             linea += 1;
         } catch (Exception ex) {
         }
@@ -70,6 +75,5 @@ public class Posicion extends JPanel {
     public void setVer(JTextArea ver) {
         this.ver = ver;
     }
-    
-    
+
 }

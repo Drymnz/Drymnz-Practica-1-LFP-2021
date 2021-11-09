@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
  */
-public class Categorizador extends Thread {
+public class Lexico extends Thread {
 
     private PanelCarga mostrarProgreso;
     private String texto;
@@ -24,13 +24,13 @@ public class Categorizador extends Thread {
     private int posicionX = 0;
     private ArrayList<Palabra> listadoPalbras = new ArrayList<>();
 
-    public Categorizador(PanelCarga mostrarProgreso, String texto) {
+    public Lexico(PanelCarga mostrarProgreso, String texto) {
         this.mostrarProgreso = mostrarProgreso;
         this.texto = texto;
         errorLexema = false;
     }
 
-    private void categorizar() {
+    protected void categorizar() {
         int totalLetra = this.texto.length();
         int contador = 0;
         mostrarProgreso.setProgreso(contador);
@@ -57,7 +57,7 @@ public class Categorizador extends Thread {
     }
 
     // analisara si la palabra cumple un patron
-    private void analisar(String palabra) {
+    protected void analisar(String palabra) {
         VerificadorPatronToken cumpleUnPatron = new VerificadorPatronToken(palabra, (posicionX - palabra.length()) + 1, posicionY);
         Palabra verificar = cumpleUnPatron.analisarPatron();
         if (verificar == null) {
@@ -69,7 +69,7 @@ public class Categorizador extends Thread {
     }
 
 // indicador de posicion para la palabra en el reporte.
-    private void contarFilaColumna(String string) {
+    protected void contarFilaColumna(String string) {
         posicionX++;
         if (string.equals("\n")) {
             posicionY++;
@@ -77,7 +77,7 @@ public class Categorizador extends Thread {
         }
     }
 
-    private void irReportes() {
+    protected void irReportes() {
         try {
             if (errorLexema) {
                 Start.ejecutar.irReportesError(listadoPalbras);

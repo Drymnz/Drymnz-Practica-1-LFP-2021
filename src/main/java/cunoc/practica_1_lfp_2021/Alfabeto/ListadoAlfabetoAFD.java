@@ -13,5 +13,6 @@ public enum ListadoAlfabetoAFD {
     LETRA,
     NUMERO,
     OPERACION,
+    CARACTER_ESPECIAL,
     PUNTUACION;
 }

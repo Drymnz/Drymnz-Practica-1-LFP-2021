@@ -12,6 +12,11 @@ public enum Puntuacion {
     DOUBLEPOINT(":"),
     SEMICOMMAT(";"),
     COMMAT(","),
+    DIAGONAL("/"),
+    SIMGLE_QUOTE("'"),
+    DOUBLE_QUOTE("\""),
+    GILLON("-"),
+    GILLON_LESS("_"),
     POINT(".");
     private String simbolo;
     private Puntuacion(String simbolo){

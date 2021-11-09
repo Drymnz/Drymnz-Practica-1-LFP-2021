@@ -11,6 +11,7 @@ package cunoc.practica_1_lfp_2021.Alfabeto;
 public enum Agrupacion {
     PARENTHESIS("(",")"),
     SQUERE_BRACKET("{","}"),
+    MINOR_HIGER("<",">"),
     SQUERE_BRACKET_TWO("[","]");
 
     private String simboloInicio;

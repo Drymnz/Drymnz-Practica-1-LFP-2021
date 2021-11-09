@@ -15,7 +15,7 @@ import java.awt.Graphics;
  */
 public class Start {
 
-    public static Ventana ejecutar = new Ventana(){
+    public static Ventana ejecutar = new Ventana() {
         @Override
         public void paint(Graphics g) {
             super.paint(g); //To change body of generated methods, choose Tools | Templates.
