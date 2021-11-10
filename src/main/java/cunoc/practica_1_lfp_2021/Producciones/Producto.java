@@ -118,6 +118,7 @@ public class Producto {
                     }
                     break;
                 case P_PRIMA:
+                    agregar("P");
                     arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.P));
                     arbol.observarHijo(0);
                     return realizoMatcher(arbol.getNodoObservado().getProducto(), revisar);
