@@ -22,6 +22,9 @@ public class Arbol {
         this.primerNodo = primerNodo;
         this.nodoObservado = primerNodo;
     }
+    public void regresarRamaInicial(){
+        this.nodoObservado = this.primerNodo;
+    }
 
     public void regresarPadre() {
         this.nodoObservado = this.nodoObservado.getPadre();

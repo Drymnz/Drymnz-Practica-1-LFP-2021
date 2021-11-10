@@ -36,8 +36,12 @@ public class Nodo {
         this(null, null, token);
     }
 
+    public Nodo(ListadoProductos producto) {
+        this(producto, null, null);
+    }
 
     public void agregarHijo(Nodo hijoNuevo) {
+        hijoNuevo.setPadre(this);
         hijos.add(hijoNuevo);
     }
 

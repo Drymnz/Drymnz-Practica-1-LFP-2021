@@ -34,7 +34,7 @@ public class ManejadorTexto {
             }
         }
         if (!palabra.isEmpty()) {
-           listado.add(palabra); 
+            listado.add(palabra);
         }
         return listado;
     }
@@ -50,10 +50,8 @@ public class ManejadorTexto {
     public Caracter[] stringCaracter(String texto) {
         ArrayList<String> listadoLetra = dividirTextoLetras(texto);
         Caracter[] listado = new Caracter[listadoLetra.size()];
-        for (String string : listadoLetra) {
-            for (Caracter caracter : listado) {
-                caracter = new Caracter(string, "ESPERA");
-            }
+        for (int i = 0; i < listado.length; i++) {
+            listado[i] = new Caracter(listadoLetra.get(i), "LETRA");
         }
         return listado;
     }

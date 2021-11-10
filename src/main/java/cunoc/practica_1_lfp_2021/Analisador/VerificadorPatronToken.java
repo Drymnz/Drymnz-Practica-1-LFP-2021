@@ -115,7 +115,7 @@ public class VerificadorPatronToken {
                 return verificacionToken.caracterEspecial(palabra);
             case COMENTARIO:
                 return verificacionToken.comentario(palabra);
-            case LIETERAL:
+            case LITERAL:
                 return verificacionToken.literal(palabra);
             case PALABRA_CLAVE:
                 return verificacionToken.palabrasReservadas(palabra);
