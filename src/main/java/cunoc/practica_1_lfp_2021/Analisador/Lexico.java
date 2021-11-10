@@ -37,30 +37,35 @@ public class Lexico extends Thread {
         ArrayList<String> analisar = (new ManejadorTexto()).dividirTextoLetras(texto);
         String palabra = "";
         for (String caracterAnalisar : analisar) {
+            boolean loAnalisastes = false;
             boolean terminoPalabra = ((new VerificadorAlfabeto()).caracterEspecial(caracterAnalisar)
                     || comentarioLiteral(palabra, caracterAnalisar));
             boolean parentesi = (new VerificadorAlfabeto()).agrupacion(caracterAnalisar) || (new VerificadorAlfabeto()).puntuacion(caracterAnalisar)
                     || (new VerificadorAlfabeto()).caracterEspecial(caracterAnalisar);
             if (parentesi) {
-                
+
                 if (!palabra.isEmpty()) {
                     ArrayList<String> verEsteAnalisis = (new ManejadorTexto()).dividirTextoLetras(palabra);
                     if ((((verEsteAnalisis.size() >= 1))
                             && (verEsteAnalisis.get(0).equals("\"")
-                            || verEsteAnalisis.get(0).equals("/"))
-                            )) {
+                            || verEsteAnalisis.get(0).equals("/")))) {
                         palabra += caracterAnalisar;
                     }
-                }else{
-                    analisar(caracterAnalisar); 
+                } else {
+                    analisar(caracterAnalisar);
+                    loAnalisastes = true;
                 }
             } else if (!palabra.isEmpty() && terminoPalabra) {
                 analisar(palabra);
+                loAnalisastes = true;
                 palabra = "";
             } else {
                 palabra += caracterAnalisar;
             }
             if (terminoPalabra) {
+                if (!loAnalisastes) {
+                    analisar(palabra);
+                }
                 palabra = "";
             }
             contador++;

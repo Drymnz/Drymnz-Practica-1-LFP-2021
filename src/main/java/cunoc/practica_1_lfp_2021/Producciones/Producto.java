@@ -27,6 +27,7 @@ public class Producto {
     protected Arbol arbol;
     private ArrayList<String> pruevas = new ArrayList<>();
     private ArrayList<String> lineas = new ArrayList<>();
+    private boolean escribir = true;
 
     public Producto(ArrayList<Palabra> pilaToken) {
         this.pilaToken = pilaToken;
@@ -42,12 +43,14 @@ public class Producto {
                 Lexema revisar = (Lexema) palabra;
                 if ((arbol.getNodoObservado().getToken() == null) | (arbol.getNodoObservado().getToken() != revisar)) {
                     if (!analisiar(revisar)) {
-                        System.out.println("ERRORRR TERMIANAR ANALSIIS SINTACTICO");
+                        if (!new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.FIN.getSimbolo())) {
+                            System.out.println("ERRORRR TERMIANAR ANALSIIS SINTACTICO");
+                        }
                     }
                 }
             }
         }
-        eliminarUlitmo();
+        eliminarUlitmo("");
         System.out.println(imprimir(lineas));
         System.out.println(imprimir(pruevas));
         aguardar();
@@ -80,7 +83,7 @@ public class Producto {
                 return true;
             default:
                 if (realizoMatcher(arbol.getNodoObservado().getProducto(), revisar)) {
-                    eliminarUlitmo();
+                    eliminarUlitmo("");
                     return true;
                 }
         }
@@ -92,27 +95,24 @@ public class Producto {
         if (verproducion != null) {
             switch (verproducion) {
                 case P:
-                    if (revisar.getTipoToken().equals(ListadoToken.IDENTIFICADOR)) {
-                        agregar("P' U");
-                        arbol.nuevoHOja(new Nodo(ListadoProductos.P_PRIMA));
-                        return realizoMatcher(ListadoProductos.P_PRIMA, revisar);//////////////////////////////////////////
-                    }
                     if (revisar.getTipoToken().equals(ListadoToken.PALABRA_CLAVE)) {
                         agregar("P' U");
                         arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.P_PRIMA));
                         arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.U));
                         arbol.observarHijo(1);
-                        if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.ESCRIBIR.getSimbolo())) {
-                            return realizoMatcher(arbol.getNodoObservado().getProducto(), revisar);
-                        }
+                        return realizoMatcher(arbol.getNodoObservado().getProducto(), revisar);
                     }
                     break;
                 case U:
                     if (revisar.getTipoToken().equals(ListadoToken.PALABRA_CLAVE)) {
                         if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.ESCRIBIR.getSimbolo())) {
-                            eliminarUlitmo();
-                            agregar("E");
+                            eliminarUlitmo("E");
                             arbol.nuevoHOja(new Nodo(ListadoProductos.E));
+                            return realizoMatcher(arbol.getNodoObservado().getProducto(), revisar);
+                        }
+                        if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.SI.getSimbolo())) {
+                            eliminarUlitmo("C");
+                            arbol.nuevoHOja(new Nodo(ListadoProductos.C));
                             return realizoMatcher(arbol.getNodoObservado().getProducto(), revisar);
                         }
                     }
@@ -134,9 +134,9 @@ public class Producto {
                 case E:
                     if (revisar.getTipoToken().equals(ListadoToken.PALABRA_CLAVE)) {
                         if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.ESCRIBIR.getSimbolo())) {
-                            agregar("FIN H ESCRIBIR");
-                            arbol.getNodoObservado().agregarHijo((new Nodo((new Lexema(ListadoToken.PALABRA_CLAVE, (new ManejadorTexto().stringCaracter("FIN")), 0, 0)))));
-                            arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.H, arbol.getNodoObservado()));
+                            eliminarUlitmo("FIN H ESCRIBIR");
+                            arbol.getNodoObservado().agregarHijo((new Nodo((new Lexema(ListadoToken.PALABRA_CLAVE, (new ManejadorTexto().stringCaracter(ListadoPalabraClave.FIN.getSimbolo())), 0, 0)))));
+                            arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.H));
                             arbol.getNodoObservado().agregarHijo(new Nodo(revisar));
                             arbol.observarHijo(1);
                             return true;
@@ -148,10 +148,69 @@ public class Producto {
 
                     }
                     break;
+                case C:
+                    if (revisar.getTipoToken().equals(ListadoToken.PALABRA_CLAVE)) {
+                        if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.SI.getSimbolo())) {
+                            eliminarUlitmo("FIN V SI");
+                            arbol.getNodoObservado().agregarHijo((new Nodo((new Lexema(ListadoToken.PALABRA_CLAVE, (new ManejadorTexto().stringCaracter(ListadoPalabraClave.FIN.getSimbolo())), 0, 0)))));
+                            arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.V));
+                            arbol.getNodoObservado().agregarHijo(new Nodo(revisar));
+                            arbol.observarHijo(1);
+                            return true;
+                        }
+                    }
+                    break;
+                case V:
+                    if (revisar.getTipoToken().equals(ListadoToken.PALABRA_CLAVE)) {
+                        if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.VERDADERO.getSimbolo())) {
+                            eliminarUlitmo("T " + ListadoPalabraClave.VERDADERO.getSimbolo());
+                            arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.T));
+                            arbol.getNodoObservado().agregarHijo(new Nodo(revisar));
+                            arbol.observarHijo(0);
+                            escribir = true;
+                            return true;
+                        }
+                        if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.FALSO.getSimbolo())) {
+                            eliminarUlitmo("T " + ListadoPalabraClave.FALSO.getSimbolo());
+                            arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.T));
+                            arbol.getNodoObservado().agregarHijo(new Nodo(revisar));
+                            arbol.observarHijo(0);
+                            escribir = false;
+                            return true;
+                        }
+                    }
+                    break;
+                case T:
+                    if (revisar.getTipoToken().equals(ListadoToken.PALABRA_CLAVE)) {
+                        if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.ENTONCES.getSimbolo())) {
+                            eliminarUlitmo("T' " + ListadoPalabraClave.ENTONCES.getSimbolo());
+                            arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.T_PRIMA));
+                            arbol.getNodoObservado().agregarHijo(new Nodo(revisar));
+                            arbol.observarHijo(0);
+                            return true;
+                        }
+                    }
+                    break;
+                case T_PRIMA:
+                    if (revisar.getTipoToken().equals(ListadoToken.PALABRA_CLAVE)) {
+                        if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.ESCRIBIR.getSimbolo())) {
+                            eliminarUlitmo("T' " + ListadoPalabraClave.ESCRIBIR.getSimbolo());
+                            arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.T_PRIMA));
+                            arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.E));
+                            arbol.observarHijo(1);
+                            return realizoMatcher(ListadoProductos.E, revisar);
+                        }
+                        if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.FIN.getSimbolo())) {
+                            eliminarUlitmo("");
+                            arbol.regresarRamaInicial();
+                            arbol.observarHijo(0);
+                            return true;
+                        }
+                    }
+                    break;
                 case H:
                     if (revisar.getTipoToken().equals(ListadoToken.LITERAL)) {
-                        eliminarUlitmo();
-                        agregar("literal");
+                        eliminarUlitmo("literal");
                         arbol.nuevoHOja(new Nodo(revisar));
                         arbol.regresarPadre();
                         arbol.regresarPadre();
@@ -169,7 +228,7 @@ public class Producto {
                     String listado = new ManejadorTexto().convertirListadoCaracter(arbol.getNodoObservado().getToken().getPalabra());
                     String listadoCon = new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra());
                     if (listadoCon.equals(listado)) {
-                        eliminarUlitmo();
+                        eliminarUlitmo("");
                         arbol.regresarRamaInicial();
                         arbol.observarHijo(0);
                         return true;
@@ -190,12 +249,15 @@ public class Producto {
                 for (int i = 1; i < (verlistado.length - 1); i++) {
                     escribir += verlistado[i].getCaracter();
                 }
-                lineas.add(escribir);
+                if (this.escribir) {
+                    lineas.add(escribir);
+                }
+                this.escribir = true;
                 break;
         }
     }
 
-    private void eliminarUlitmo() {
+    private void eliminarUlitmo(String replazar) {
         String dividir = pruevas.get((pruevas.size() - 1));
         ArrayList<String> listado = new ManejadorTexto().dividirTextoPalabra(dividir);
         String meter = "";
@@ -204,6 +266,8 @@ public class Producto {
             String colocar = (i != (listado.size() - 2)) ? " " : "";
             meter += get + colocar;
         }
+        replazar = (replazar.isEmpty()) ? "" : " " + replazar;
+        meter += replazar;
         pruevas.add(meter);
     }
 
