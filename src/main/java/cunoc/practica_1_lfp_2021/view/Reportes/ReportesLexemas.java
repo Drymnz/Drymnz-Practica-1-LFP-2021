@@ -4,6 +4,7 @@
  */
 package cunoc.practica_1_lfp_2021.view.Reportes;
 
+import cunoc.practica_1_lfp_2021.Alfabeto.CaracterEspecial;
 import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
 import cunoc.practica_1_lfp_2021.Start;
 import cunoc.practica_1_lfp_2021.Toke.Lexema;
@@ -153,7 +154,7 @@ public class ReportesLexemas extends javax.swing.JPanel implements Runnable {
                     try {
                         Lexema ver = (Lexema) palabra;
                         //{"nombre del token", "lexema", "posicionX","posicionY"};
-                        modeloListadoToken.addRow(new Object[]{ver.getTipoToken().getNombre(), (new ManejadorTexto()).convertirListadoCaracter(ver.getPalabra()), ver.getPosicionX(), ver.getPosicionY()});
+                        modeloListadoToken.addRow(new Object[]{ver.getTipoToken().getNombre(), caracterEspecial((new ManejadorTexto()).convertirListadoCaracter(ver.getPalabra())), ver.getPosicionX(), ver.getPosicionY()});
                     } catch (IllegalThreadStateException e) {
                         System.out.println("Error de conversion de palabra a Lexema");
                         System.out.println(e.getMessage());
@@ -161,6 +162,15 @@ public class ReportesLexemas extends javax.swing.JPanel implements Runnable {
                 }
             }
         }
+    }
+    private String caracterEspecial(String verificar){
+        CaracterEspecial[] listadoCaracterEspecial = CaracterEspecial.values();
+        for (CaracterEspecial caracterEspecial : listadoCaracterEspecial) {
+            if (caracterEspecial.getSimbolo().equals(verificar)) {
+                return caracterEspecial.toString();
+            }
+        }
+        return verificar;
     }
 
     // asignar titulos a las tablas

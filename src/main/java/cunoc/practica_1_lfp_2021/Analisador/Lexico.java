@@ -11,8 +11,6 @@ import cunoc.practica_1_lfp_2021.Start;
 import cunoc.practica_1_lfp_2021.Toke.Palabra;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.PanelCarga;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Benjamín de Jesús Pérez Aguilar<@Drymnz>
@@ -45,7 +43,14 @@ public class Lexico extends Thread {
                     || (new VerificadorAlfabeto()).caracterEspecial(caracterAnalisar);
             if (parentesi) {
                 analisar(caracterAnalisar);
-                palabra += caracterAnalisar;
+                if (!palabra.isEmpty()) {
+                    ArrayList<String> verEsteAnalisis = (new ManejadorTexto()).dividirTextoLetras(palabra);
+                    if (((!(verEsteAnalisis.size() > 1))
+                            && (verEsteAnalisis.get(0).equals("\"")
+                            || verEsteAnalisis.get(0).equals("/")))) {
+                        palabra += caracterAnalisar;
+                    }
+                }
             } else if (!palabra.isEmpty() && terminoPalabra) {
                 analisar(palabra);
                 palabra = "";
