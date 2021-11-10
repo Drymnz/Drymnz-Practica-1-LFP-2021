@@ -118,19 +118,9 @@ public class Producto {
                     }
                     break;
                 case P_PRIMA:
-                    if (revisar.getTipoToken().equals(ListadoToken.IDENTIFICADOR)) {
-                        agregar("P' U");
-                        arbol.nuevoHOja(new Nodo(ListadoProductos.A));
-                        return realizoMatcher(ListadoProductos.A, revisar);
-                    }
-                    if (revisar.getTipoToken().equals(ListadoToken.PALABRA_CLAVE)) {
-                        if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.ESCRIBIR.getSimbolo())) {
-                            agregar("P' U");
-                            arbol.nuevoHOja(new Nodo(ListadoProductos.E));
-                            return realizoMatcher(ListadoProductos.E, revisar);
-                        }
-                    }
-                    break;
+                    arbol.getNodoObservado().agregarHijo(new Nodo(ListadoProductos.P));
+                    arbol.observarHijo(0);
+                    return realizoMatcher(arbol.getNodoObservado().getProducto(), revisar);
                 case E:
                     if (revisar.getTipoToken().equals(ListadoToken.PALABRA_CLAVE)) {
                         if (new ManejadorTexto().convertirListadoCaracter(revisar.getPalabra()).equals(ListadoPalabraClave.ESCRIBIR.getSimbolo())) {
