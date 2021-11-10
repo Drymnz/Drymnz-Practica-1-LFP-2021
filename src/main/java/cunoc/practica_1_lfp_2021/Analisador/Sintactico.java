@@ -4,10 +4,8 @@
  */
 package cunoc.practica_1_lfp_2021.Analisador;
 
-import cunoc.practica_1_lfp_2021.ManejadorTexto.ManejadorTexto;
-import cunoc.practica_1_lfp_2021.Toke.Caracter;
+import cunoc.practica_1_lfp_2021.Producciones.Producto;
 import cunoc.practica_1_lfp_2021.view.sub_ventanas.PanelCarga;
-import java.util.ArrayList;
 
 /**
  *
@@ -15,29 +13,14 @@ import java.util.ArrayList;
  */
 public class Sintactico extends Lexico {
 
+    // herencia del analisis lexico
     public Sintactico(PanelCarga mostrarProgreso, String texto) {
         super(mostrarProgreso, texto);
     }
 
     @Override
     protected void categorizar() {
-        int totalLetra = texto.length();
-        int contador = 0;
-        mostrarProgreso.setProgreso(contador);
-        ArrayList<String> analisar = (new ManejadorTexto()).dividirTextoLetras(texto);
-        String palabraAntes = "";
-        String palabra = "";
-        boolean esperar = true;
-        for (String string : analisar) {
-        
-            palabraAntes = palabra;
-            contador++;
-            mostrarProgreso.setProgresoReferente(totalLetra, contador);
-            contarFilaColumna(string);
-        }
-        if (!palabra.isEmpty() && !palabra.equals("\n") && !palabra.equals(" ")) {
-            analisar(palabra);
-        }
+        super.categorizar(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -52,11 +35,18 @@ public class Sintactico extends Lexico {
 
     @Override
     protected void irReportes() {
+        if (!errorLexema) {
+            Producto productos = new Producto(pilaToken);
+            productos.examinar();
+        }
         super.irReportes(); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void run() {
         super.run(); //To change body of generated methods, choose Tools | Templates.
     }
+    //FIN DE  herencia del analisis lexico
+
 }

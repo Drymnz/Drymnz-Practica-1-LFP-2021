@@ -22,7 +22,7 @@ public class Lexico extends Thread {
     protected boolean errorLexema;
     protected int posicionY = 1;
     protected int posicionX = 0;
-    protected ArrayList<Palabra> listadoPalbras = new ArrayList<>();
+    protected ArrayList<Palabra> pilaToken = new ArrayList<>();
 
     public Lexico(PanelCarga mostrarProgreso, String texto) {
         this.mostrarProgreso = mostrarProgreso;
@@ -42,14 +42,17 @@ public class Lexico extends Thread {
             boolean parentesi = (new VerificadorAlfabeto()).agrupacion(caracterAnalisar) || (new VerificadorAlfabeto()).puntuacion(caracterAnalisar)
                     || (new VerificadorAlfabeto()).caracterEspecial(caracterAnalisar);
             if (parentesi) {
-                analisar(caracterAnalisar);
+                
                 if (!palabra.isEmpty()) {
                     ArrayList<String> verEsteAnalisis = (new ManejadorTexto()).dividirTextoLetras(palabra);
-                    if (((!(verEsteAnalisis.size() > 1))
+                    if ((((verEsteAnalisis.size() >= 1))
                             && (verEsteAnalisis.get(0).equals("\"")
-                            || verEsteAnalisis.get(0).equals("/")))) {
+                            || verEsteAnalisis.get(0).equals("/"))
+                            )) {
                         palabra += caracterAnalisar;
                     }
+                }else{
+                    analisar(caracterAnalisar); 
                 }
             } else if (!palabra.isEmpty() && terminoPalabra) {
                 analisar(palabra);
@@ -109,9 +112,9 @@ public class Lexico extends Thread {
         Palabra verificar = cumpleUnPatron.analisarPatron();
         if (verificar == null) {
             errorLexema = true;
-            listadoPalbras.add((new RecuperacionError(cumpleUnPatron, posicionY, (posicionX - palabra.length()) + 1)).recuperarError());
+            pilaToken.add((new RecuperacionError(cumpleUnPatron, posicionY, (posicionX - palabra.length()) + 1)).recuperarError());
         } else {
-            listadoPalbras.add(verificar);
+            pilaToken.add(verificar);
         }
     }
 
@@ -127,15 +130,14 @@ public class Lexico extends Thread {
     protected void irReportes() {
         try {
             if (errorLexema) {
-                Start.ejecutar.irReportesError(listadoPalbras);
+                Start.ejecutar.irReportesError(pilaToken);
             } else {
-                Start.ejecutar.irReportesToken(listadoPalbras);
+                Start.ejecutar.irReportesToken(pilaToken);
             }
         } catch (IllegalThreadStateException e) {
             System.out.println(e.getMessage());
             System.out.println(e.toString());
             System.out.println("Al ir reportes");
-
         }
 
     }
